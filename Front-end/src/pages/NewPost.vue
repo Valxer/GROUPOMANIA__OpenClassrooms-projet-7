@@ -10,18 +10,17 @@
         color="primary" />
       <q-file
         class="q-mx-auto"
-        v-model="post.imageUrl"
+        v-model="imageUpload"
         label="Choisir une image ou gif"
         outlined
-        counter
-        :counter-label="post.counterLabelFn"
-        max-files="1"
+        accept="image/*"
         bg-color="secondary"
         label-color="accent"
         style="width: 300px"
+        @input="captureImage"
       >
         <template v-slot:prepend>
-          <q-icon name="attach_file" />
+          <q-icon name="eva-attach-outline" />
         </template>
       </q-file>
       <q-btn
@@ -39,7 +38,6 @@
 
 <script>
 import { defineComponent } from 'vue';
-import { ref } from 'vue';
 import { uid } from 'quasar';
 
 export default defineComponent({
@@ -48,13 +46,16 @@ export default defineComponent({
     return {
       post:{
         id: uid(),
-        title: ref(''),
+        title: '',
         date: Date.now(),
-        imageUrl: ref(null),
-        counterLabelFn ({ totalSize, filesNumber, maxFiles }) {
-          return `${filesNumber} files of ${maxFiles} | ${totalSize}`
-        }
-      }
+        imageUrl: null
+      },
+      imageUpload: []
+    }
+  },
+  methods: {
+    captureImage(file) {
+      this.post.imageUrl = file
     }
   }
 })

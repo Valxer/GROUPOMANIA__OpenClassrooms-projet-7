@@ -1,13 +1,26 @@
 <template>
   <q-page class="flex flex-center">
-    <q-btn
+    <q-item class="column profileHolder bg-white">
+      <div class="row justify-around q-mx-auto q-mb-md">
+        <q-item-section avatar>
+          <q-avatar>
+            <img class="profilePic" src="https://cdn.quasar.dev/img/avatar2.jpg">
+          </q-avatar>
+        </q-item-section>
+
+        <q-item-section class="card-header">
+          <q-item-label>Pseudo</q-item-label>
+        </q-item-section>
+      </div>
+      <q-btn
           @click="suppress = true"
           text-color="primary"
           color="secondary"
           icon-right="eva-trash-2-outline"
           label="Supprimer le profil"
         />
-        <q-dialog v-model="suppress" persistent>
+    </q-item>
+    <q-dialog v-model="suppress" persistent>
       <q-card>
         <q-card-section class="column items-center">
           <q-avatar icon="eva-trash-2-outline" color="primary" text-color="accent" />
@@ -36,3 +49,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss" scoped>
+  .profileHolder {
+    border-radius: 5px;
+  }
+</style>
