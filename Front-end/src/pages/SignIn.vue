@@ -57,6 +57,9 @@
           />
         </template>
       </q-input>
+      <div
+        class="error"
+        v-html="error" />
       <q-btn
         @click="signin"
         class="q-ma-xl"
@@ -84,7 +87,8 @@ export default defineComponent({
         password: '' 
       },
       imageUpload: [],
-      isPwd: true
+      isPwd: true,
+      error: null
     }
   },
   methods: {
@@ -101,16 +105,24 @@ export default defineComponent({
       this.$refs.pass.resetValidation()
     },
     async signin() {
-      await Auth.signin({
-        name: this.user.name,
-        profilePic: this.user.profilePic,
-        email: this.user.email,
-        password: this.user.password
-      })
+      try {
+        await Auth.signin({
+          name: this.user.name,
+          //profilePic: this.user.profilePic,
+          email: this.user.email,
+          password: this.user.password
+        })
+      } catch (error) {
+        this.error = error.response.data.error
+      }
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
+  .error {
+    color: red;
+    max-width: 300px;
+  }
 </style>
