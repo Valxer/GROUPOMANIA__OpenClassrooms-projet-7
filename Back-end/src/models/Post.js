@@ -1,5 +1,3 @@
-const { Sequelize } = require(".");
-
 module.exports = (sequelize, DataTypes) =>
     sequelize.define('Post', {
         title: {
