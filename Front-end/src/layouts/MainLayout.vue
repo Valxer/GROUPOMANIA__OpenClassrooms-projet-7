@@ -11,7 +11,7 @@
         >
         <q-space />
         <q-btn
-          to="/"
+          @click="logout"
           text-color="primary"
           color="secondary"
           icon-right="eva-log-out-outline"
@@ -52,9 +52,20 @@
 <script>
 
 import { defineComponent, ref } from 'vue'
+import { mapActions } from 'vuex'
 
 export default defineComponent({
-  name: 'MainLayout'
+  name: 'MainLayout',
+  methods: {
+    ...mapActions('client', ['setName', 'setToken']),
+    logout() {
+      this.setToken(null)
+      this.setName(null)
+      this.$router.push({
+        name: 'login'
+      })
+    }
+  }
 })
 </script>
 

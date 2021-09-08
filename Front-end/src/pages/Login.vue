@@ -14,6 +14,7 @@
       />
       <q-input
         ref="pass"
+        @keyup.enter="login"
         @click="resetpass"
         class=" q-mb-md"
         :type="isPwd ? 'password' : 'text'"
@@ -81,6 +82,9 @@ export default defineComponent({
         })
         this.setToken(response.data.token)
         this.setName(response.data.user.name)
+        this.$router.push({
+          name: 'feed'
+        })
       } catch (error) {
         this.error = error.response.data.error
       }

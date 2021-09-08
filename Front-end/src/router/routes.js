@@ -19,12 +19,15 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: 'feed',
+        name: 'feed',
         component: () => import('src/pages/Feed.vue')
       },
       { path: 'profile',
+        name: 'profile',
         component: () => import('src/pages/Profile.vue')
       },
       { path: 'post',
+        name: 'post',
         component: () => import('src/pages/NewPost.vue')
       }
     ]

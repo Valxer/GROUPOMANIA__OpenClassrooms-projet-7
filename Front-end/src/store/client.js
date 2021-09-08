@@ -9,10 +9,11 @@ const mutations = {
     setToken (state, token) {
         state.token = token
         if (state.token) {
-            console.log('logged in')
             state.isLoggedIn = true
+            console.log('logged in')
         } else {
             state.isLoggedIn = false
+            console.log('logged out')
         }
     },
     setName (state, name) {
