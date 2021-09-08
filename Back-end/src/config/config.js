@@ -9,5 +9,8 @@ module.exports = {
             host: process.env.HOST || 'localhost',
             storage: './groupomania.sqlite'
         }
+    },
+    auth: {
+        jwtSecret: process.env.JWT_SECRET || 'secret'
     }
 }

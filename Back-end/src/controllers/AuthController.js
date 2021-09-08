@@ -1,4 +1,13 @@
 const {User} = require('../models')
+const jwt = require('jsonwebtoken')
+const config = require('../config/config')
+
+function jwtSignUser(user) {            //gives a token to garantee authentication
+    const ONE_WEEK = 60*60*24*7
+    return jwt.sign(user, config.auth.jwtSecret, {
+        expiresIn: ONE_WEEK
+    })
+}
 
 module.exports  = {
     async signin (req, res) {
@@ -11,6 +20,7 @@ module.exports  = {
             })
         }
     },
+
     async login (req, res) {
         try {
             const {email, password} = req.body  //grabs the data from the request
@@ -33,7 +43,8 @@ module.exports  = {
 
             const userJson = user.toJSON()      //success an we respond to the request
             res.send({
-                user: userJson
+                user: userJson,
+                token: jwtSignUser(userJson)
             })
         } catch (err) {                         //if somehow the request fails
             res.status(500).send({
