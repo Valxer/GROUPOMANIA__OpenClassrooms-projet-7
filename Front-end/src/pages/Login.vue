@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 import Auth from '../services/Auth'
 
 export default defineComponent({
@@ -61,7 +61,7 @@ export default defineComponent({
         password: '' 
       },
       isPwd: true,
-      error: null
+      error: null,
     }
   },
   methods: {
@@ -73,10 +73,11 @@ export default defineComponent({
     },
     async login() {
       try {
-        await Auth.login({
+        const response = await Auth.login({
           email: this.user.email,
           password: this.user.password
         })
+        console.log('response: ', response.data.token)  
       } catch (error) {
         this.error = error.response.data.error
       }
