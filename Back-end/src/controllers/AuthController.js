@@ -1,17 +1,19 @@
 const {User} = require('../models')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
+const bcrypt = require('bcrypt')
 
 function jwtSignUser(user) {            //gives a token to garantee authentication
-    const ONE_WEEK = 60*60*24*7
     return jwt.sign(user, config.auth.jwtSecret, {
-        expiresIn: ONE_WEEK
+        expiresIn: '24h'
     })
 }
 
 module.exports  = {
     async signin (req, res) {
         try {
+            const hash = await bcrypt.hash(req.body.password, 10)
+            req.body.password = hash
             const user = await User.create(req.body)    //creates a new user
             res.send(user.toJSON())
         } catch (err) {                                 // email already exists
@@ -30,13 +32,13 @@ module.exports  = {
                 }
             })
             if (!user) {                        //if such a user is  not found
-                return res.status(403).send({
+                return res.status(401).send({
                     error: 'The login information was incorrect'
                 })
             }
-            const isPwdValid = password === user.password   //checks if the password is correct
-            if (!isPwdValid) {                              //if not
-                return res.status(403).send({
+            const isPwdValid = await bcrypt.compare(password, user.password)  //checks if the password is correct
+            if (!isPwdValid) {                                          //if not
+                return res.status(401).send({
                     error: 'The login information was incorrect'
                 })
             }
