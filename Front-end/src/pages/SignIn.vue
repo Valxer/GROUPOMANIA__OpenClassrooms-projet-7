@@ -3,6 +3,7 @@
     <div class=" column login-container">
       <q-input
         ref="pseudo"
+        @keyup.enter="signin"
         @click="resetpseudo"
         class=" q-mb-xl textInput"
         v-model="user.name"
@@ -28,6 +29,7 @@
       </q-file>
       <q-input
         ref="email"
+        @keyup.enter="signin"
         @click="resetemail"
         class="q-mt-lg q-mb-md"
         type="email"
@@ -39,6 +41,7 @@
       />
       <q-input
         ref="pass"
+        @keyup.enter="signin"
         @click="resetpass"
         class=" q-mb-md"
         :type="isPwd ? 'password' : 'text'"
@@ -109,13 +112,16 @@ export default defineComponent({
     ...mapActions('client', ['setName']),
     async signin() {
       try {
-        const response = await Auth.signin({
+        await Auth.signin({
           name: this.user.name,
           //profilePic: this.user.profilePic,
           email: this.user.email,
           password: this.user.password
         })
-        this.setName(response.data.name)
+        console.log('User registered')
+        this.$router.push({
+          name: 'login'
+        })
       } catch (error) {
         this.error = error.response.data.error
       }

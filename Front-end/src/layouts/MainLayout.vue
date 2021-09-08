@@ -61,6 +61,7 @@ export default defineComponent({
     logout() {
       this.setToken(null)
       this.setName(null)
+      console.log('Deconnecting...')
       this.$router.push({
         name: 'login'
       })

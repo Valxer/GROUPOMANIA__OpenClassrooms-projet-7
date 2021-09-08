@@ -3,6 +3,7 @@
     <div class=" column login-container">
       <q-input
         ref="email"
+        @keyup.enter="login"
         @click="resetemail"
         class="q-mt-lg q-mb-md"
         type="email"
@@ -82,6 +83,7 @@ export default defineComponent({
         })
         this.setToken(response.data.token)
         this.setName(response.data.user.name)
+        console.log('Connexion complete')
         this.$router.push({
           name: 'feed'
         })
