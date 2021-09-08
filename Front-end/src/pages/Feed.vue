@@ -49,6 +49,7 @@
 import { defineComponent } from 'vue'
 import { date } from 'quasar'
 import { mapGetters } from 'vuex'
+import Posts from '../services/Posts'
 
 export default defineComponent({
   name: 'Feed',
@@ -61,6 +62,9 @@ export default defineComponent({
         months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
       });
     }
+  },
+  async mounted () {
+    this.feed = await Posts.getFeed()
   }
 })
 </script>
