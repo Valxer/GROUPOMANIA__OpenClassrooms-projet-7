@@ -59,7 +59,8 @@
       </q-input>
       <div
         class="error"
-        v-html="error" />
+        v-html="error" 
+      />
       <q-btn
         @click="signin"
         class="q-ma-xl"

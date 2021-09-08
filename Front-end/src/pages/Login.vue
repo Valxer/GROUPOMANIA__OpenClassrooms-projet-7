@@ -32,6 +32,10 @@
           />
         </template>
       </q-input>
+      <div
+        class="error"
+        v-html="error" 
+      />
       <q-btn
         @click="login"
         class="q-ma-xl"
@@ -57,6 +61,7 @@ export default defineComponent({
         password: '' 
       },
       isPwd: true,
+      error: null
     }
   },
   methods: {
@@ -67,15 +72,22 @@ export default defineComponent({
       this.$refs.pass.resetValidation()
     },
     async login() {
-// try {
+      try {
         await Auth.login({
           email: this.user.email,
           password: this.user.password
         })
-      // } catch (error) {
-      //   this.error = error.response.data.error
-      // }
+      } catch (error) {
+        this.error = error.response.data.error
+      }
     }
   }
 })
 </script>
+
+<style lang="scss" scoped>
+  .error {
+    color: red;
+    max-width: 300px;
+  }
+</style>
