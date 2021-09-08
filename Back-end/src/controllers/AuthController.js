@@ -12,7 +12,7 @@ function jwtSignUser(user) {            //gives a token to garantee authenticati
 module.exports  = {
     async signin (req, res) {
         try {
-            const hash = await bcrypt.hash(req.body.password, 10)
+            const hash = await bcrypt.hash(req.body.password, 10)   //hashes the password
             req.body.password = hash
             const user = await User.create(req.body)    //creates a new user
             res.send(user.toJSON())
