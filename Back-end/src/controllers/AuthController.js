@@ -1,7 +1,7 @@
-const {User} = require('../models')
-const jwt = require('jsonwebtoken')
-const config = require('../config/config')
-const bcrypt = require('bcrypt')
+const {User} = require('../models') //models
+const jwt = require('jsonwebtoken') // used to create tokens
+const config = require('../config/config')  //config file
+const bcrypt = require('bcrypt')    //used to hash passwords
 
 function jwtSignUser(user) {            //gives a token to garantee authentication
     return jwt.sign(user, config.auth.jwtSecret, {
