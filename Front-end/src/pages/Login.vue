@@ -2,22 +2,39 @@
   <q-page class="flex flex-center">
     <div class=" column login-container">
       <q-input
-        class=" q-mb-md textInput"
-        autogrow
+        ref="email"
+        @click="resetemail"
+        class="q-mt-lg q-mb-md"
+        type="email"
         v-model="user.email"
         label="Email"
         label-color="primary"
-        color="primary" />
+        color="primary"
+        :rules="[val => !!val || 'Champ Obligatoire']"
+      />
       <q-input
-        class=" q-mb-md textInput"
-        autogrow
+        ref="pass"
+        @click="resetpass"
+        class=" q-mb-md"
+        :type="isPwd ? 'password' : 'text'"
         v-model="user.password"
         label="Mot de Passe"
         label-color="primary"
-        color="primary" />
+        color="primary"
+        :rules="[val => !!val || 'Champ Obligatoire']"
+      >
+        <template v-slot:append>
+          <q-icon
+            :name="isPwd ? 'eva-eye-off-outline' : 'eva-eye-outline'"
+            color="primary"
+            class="cursor-pointer"
+            @click="isPwd = !isPwd"
+          />
+        </template>
+      </q-input>
       <q-btn
+        @click="login"
         class="q-ma-xl"
-        to="/feed"
         text-color="primary"
         color="secondary"
         icon-right="eva-log-in-outline"
@@ -29,6 +46,7 @@
 
 <script>
 import { defineComponent } from 'vue';
+import Auth from '../services/Auth'
 
 export default defineComponent({
   name: 'Login',
@@ -37,7 +55,26 @@ export default defineComponent({
       user: {
         email: '',
         password: '' 
-      }
+      },
+      isPwd: true,
+    }
+  },
+  methods: {
+    resetemail() {
+      this.$refs.email.resetValidation()
+    },
+    resetpass() {
+      this.$refs.pass.resetValidation()
+    },
+    async login() {
+// try {
+        await Auth.login({
+          email: this.user.email,
+          password: this.user.password
+        })
+      // } catch (error) {
+      //   this.error = error.response.data.error
+      // }
     }
   }
 })
