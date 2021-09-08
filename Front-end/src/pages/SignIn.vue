@@ -76,6 +76,7 @@
 <script>
 import { defineComponent } from 'vue';
 import Auth from '../services/Auth'
+import { mapActions } from 'vuex'
 
 export default defineComponent({
   name: 'SignIn',
@@ -105,14 +106,16 @@ export default defineComponent({
     resetpass() {
       this.$refs.pass.resetValidation()
     },
+    ...mapActions('client', ['setName']),
     async signin() {
       try {
-        await Auth.signin({
+        const response = await Auth.signin({
           name: this.user.name,
           //profilePic: this.user.profilePic,
           email: this.user.email,
           password: this.user.password
         })
+        this.setName(response.data.name)
       } catch (error) {
         this.error = error.response.data.error
       }
