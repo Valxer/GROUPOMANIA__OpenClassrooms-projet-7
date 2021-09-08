@@ -3,6 +3,11 @@ const jwt = require('jsonwebtoken') // used to create tokens
 const config = require('../config/config')  //config file
 const bcrypt = require('bcrypt')    //used to hash passwords
 
+require('dotenv').config();
+const cryptojs = require('crypto-js');                
+const key = cryptojs.enc.Hex.parse(process.env.KEY);
+const iv = cryptojs.enc.Hex.parse(process.env.IV);    //using a key and an iv we can make sure we get the same output for the same input (crypting not hashing)
+
 function jwtSignUser(user) {            //gives a token to garantee authentication
     return jwt.sign(user, config.auth.jwtSecret, {
         expiresIn: '24h'
@@ -12,8 +17,8 @@ function jwtSignUser(user) {            //gives a token to garantee authenticati
 module.exports  = {
     async signin (req, res) {
         try {
-            const hash = await bcrypt.hash(req.body.password, 10)   //hashes the password
-            req.body.password = hash
+            req.body.email = cryptojs.AES.encrypt(req.body.email, key, { iv: iv }).toString()
+            req.body.password = await bcrypt.hash(req.body.password, 10)   //hashes the password
             const user = await User.create(req.body)    //creates a new user
             res.send(user.toJSON())
         } catch (err) {                                 // email already exists
@@ -28,7 +33,7 @@ module.exports  = {
             const {email, password} = req.body  //grabs the data from the request
             const user = await User.findOne({   //tries to find a user with the given email               
                 where: {
-                    email: email
+                    email: cryptojs.AES.encrypt(email, key, { iv: iv }).toString()
                 }
             })
             if (!user) {                        //if such a user is  not found
