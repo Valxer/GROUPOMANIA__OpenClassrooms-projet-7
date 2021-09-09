@@ -38,14 +38,13 @@
 
 <script>
 import { defineComponent } from 'vue';
-import { uid } from 'quasar';
+import Posts from '../services/Posts'
 
 export default defineComponent({
   name: 'NewPost',
   data() {
     return {
       post:{
-        id: uid(),
         title: '',
         date: Date.now(),
         imageUrl: null
