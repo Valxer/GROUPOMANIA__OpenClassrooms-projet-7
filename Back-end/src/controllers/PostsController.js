@@ -4,7 +4,8 @@ module.exports  = {
     async getFeed (req,res) {
         try {
             const posts = await Post.findAll({
-                limit: 20
+                limit: 20,
+                order: [['createdAt', 'DESC']]
             })
             res.send(posts)
         } catch {
