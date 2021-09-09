@@ -35,13 +35,30 @@ module.exports  = {
             })
             if (!post) {                        //if such a user is  not found
                 return res.status(404).send({
-                    error: 'Could not find the post required'
+                    error: 'The post you are looking for doesn\'t exist'
                 })
             }
             res.send(post)
         } catch {
             res.status(500).send({
                 error: 'An error occured trying to fetch the post'
+            })
+        }
+    },
+
+    async deletePost (req, res) {
+        try {
+            await Post.destroy({   //tries to find a user with the given email               
+                where: {
+                    id: req.params.id
+                }
+            })
+            res.status(200).send({
+                message: 'Post successfully deleted'
+            })
+        } catch {
+            res.status(500).send({
+                error: 'An error occured trying to delete the post'
             })
         }
     }
