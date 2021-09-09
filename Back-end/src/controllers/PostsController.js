@@ -1,4 +1,5 @@
 const {Post} = require('../models') //models
+const {Comment} = require('../models')
 
 module.exports  = {
     async getFeed (req, res) {
@@ -38,7 +39,21 @@ module.exports  = {
                     error: 'The post you are looking for doesn\'t exist'
                 })
             }
-            res.send(post)
+            const comments = await Comment.findAll({
+                where: {
+                    postId: req.params.id
+                },
+                order: [['createdAt', 'DESC']]
+            })
+            if (!comments) {                        //if such a user is  not found
+                return res.status(404).send({
+                    error: 'The comments you are looking for don\'t exist'
+                })
+            }
+            res.send({
+                post: post,
+                comments: comments
+            })
         } catch {
             res.status(500).send({
                 error: 'An error occured trying to fetch the post'
