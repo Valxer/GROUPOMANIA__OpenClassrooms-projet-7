@@ -7,8 +7,8 @@ export default {
     createPost(content) {
         return api.post('post', content)
     },
-    updatePost(content) {
-        return api.post('post/:id', content)
+    getPost(postId) {
+        return api.get('post/:id', postId)
     },
     deletePost() {
         return api.delete('post/:id')

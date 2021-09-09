@@ -5,5 +5,6 @@ const PostsController = require('./controllers/PostsController')
 module.exports = (app) => {
     app.post('/signin',AuthControllerPolicy.signin, AuthController.signin),
     app.post('/login', AuthController.login),
-    app.get('/feed', PostsController.getFeed)
+    app.get('/feed', PostsController.getFeed),
+    app.post('/post', PostsController.createPost)
 }
