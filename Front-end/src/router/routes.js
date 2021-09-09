@@ -29,6 +29,11 @@ const routes = [
       { path: 'post',
         name: 'post',
         component: () => import('src/pages/NewPost.vue')
+      },
+      {
+        path: 'post/:id',
+        name: 'singlePost',
+        component: () => import('src/pages/SinglePost.vue')
       }
     ]
   },

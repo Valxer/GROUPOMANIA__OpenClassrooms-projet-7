@@ -2,7 +2,6 @@
   <q-page class="constrain q-pa-xl">
     <div class="feedsection row justify-center q-gutter-xl q-mb-xl">
       <q-card
-        @click="goToPost(post.id)"
         class="my-card"
         v-for="post in feed"
         :key="post.id"
@@ -63,14 +62,6 @@ export default defineComponent({
       return date.formatDate(value, 'Le D MMMM à HH:mm', {
         months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
       });
-    },
-    goToPost(value) {
-      this.$router.push({
-        name: 'singlePost',
-        params: {
-          id: value
-        }
-      })
     }
   },
   async mounted () {
@@ -78,17 +69,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="scss" scoped>
-  .my-card{
-    width: 100%;
-    .mainPic{
-      max-height: 600px;
-      object-fit: contain;
-    }
-  }
-  .createbtn {
-    height: 50px;
-    display: flex;
-  }
-</style>
