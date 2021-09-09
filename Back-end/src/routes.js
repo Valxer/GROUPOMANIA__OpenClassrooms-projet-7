@@ -14,5 +14,6 @@ module.exports = (app) => {
     app.delete('/post/:id', PostsController.deletePost),
     //Comment requests
     app.get('/post/:id/comments', CommentsController.getComments)
-    app.post('/post/:id/comments', CommentsController.createComment)
+    app.post('/post/:id', CommentsController.createComment)
+    app.delete('/comment/:id', CommentsController.deleteComment)
 }

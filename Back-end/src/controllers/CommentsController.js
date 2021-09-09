@@ -32,5 +32,22 @@ module.exports  = {
                 error: 'An error occured trying to create your comment'
             })
         }
+    },
+
+    async deleteComment (req, res) {
+        try {
+            await Comment.destroy({   //tries to find a user with the given email               
+                where: {
+                    id: req.params.id
+                }
+            })
+            res.status(200).send({
+                message: 'Comment successfully deleted'
+            })
+        } catch {
+            res.status(500).send({
+                error: 'An error occured trying to delete the comment'
+            })
+        }
     }
 }
