@@ -1,7 +1,7 @@
 const {Post} = require('../models') //models
 
 module.exports  = {
-    async getFeed (req,res) {
+    async getFeed (req, res) {
         try {
             const posts = await Post.findAll({
                 limit: 20,
@@ -26,7 +26,7 @@ module.exports  = {
         }
     },
 
-    async getPost (req, res) {
+    async getPost (req, res, next) {
         try {
             const post = await Post.findOne({   //tries to find a user with the given email               
                 where: {
