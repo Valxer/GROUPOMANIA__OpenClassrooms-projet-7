@@ -7,8 +7,9 @@ export default {
     createPost(content) {
         return api.post('post', content)
     },
-    getPost(postId) {
-        return api.get('post/:id', postId)
+    getPost(id) {
+        const path = 'post/' + id
+        return api.get(path)
     },
     deletePost() {
         return api.delete('post/:id')

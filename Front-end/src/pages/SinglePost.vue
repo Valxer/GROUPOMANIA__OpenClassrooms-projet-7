@@ -3,8 +3,7 @@
     <div class="feedsection row justify-center q-gutter-xl q-mb-xl">
       <q-card
         class="my-card"
-        v-for="post in feed"
-        :key="post.id"
+        :key="data.post.id"
       >
         <q-item>
           <q-item-section avatar>
@@ -14,13 +13,13 @@
           </q-item-section>
 
           <q-item-section class="card-header">
-            <q-item-label>{{post.ownerId}}</q-item-label>
-            <q-item-label caption>{{niceDate(post.date)}}</q-item-label>
+            <q-item-label>{{data.post.ownerId}}</q-item-label>
+            <q-item-label caption>{{niceDate(data.post.date)}}</q-item-label>
           </q-item-section>
         </q-item>
-        <img class="mainPic" :src="post.image">
+        <img class="mainPic" :src="data.post.image">
         <q-card-section class="card-footer">
-          <div class="text-subtitle1 text-weight-medium text-center">{{post.title}}</div>
+          <div class="text-subtitle1 text-weight-medium text-center">{{data.post.title}}</div>
         </q-card-section>
       </q-card>
     </div>
@@ -51,10 +50,20 @@ import { date } from 'quasar'
 import Posts from '../services/Posts'
 
 export default defineComponent({
-  name: 'Feed',
+  name: 'SinglePost',
   data() {
     return {
-      feed: null
+        data: {
+            post: {
+                id: 1,
+                title: "Le pont d'Avignon",
+                ownerId: 1,
+                date: 1631169953600,
+                image: "https://i.imgur.com/SnuAkUm.jpeg",
+                createdAt: "2021-09-09T07:35:42.775Z",
+                updatedAt: "2021-09-09T07:35:42.775Z"
+            }
+        }
     }
   },
   methods: {
@@ -65,7 +74,8 @@ export default defineComponent({
     }
   },
   async mounted () {
-    this.feed = (await Posts.getFeed()).data
+      this.data = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
+      console.log(this.data)
   }
 })
 </script>
