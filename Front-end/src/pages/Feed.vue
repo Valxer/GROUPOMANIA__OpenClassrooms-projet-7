@@ -3,7 +3,7 @@
     <div class="feedsection row justify-center q-gutter-xl q-mb-xl">
       <q-card
         class="my-card"
-        v-for="post in posts"
+        v-for="post in feed"
         :key="post.id"
       >
         <q-item>
@@ -14,11 +14,11 @@
           </q-item-section>
 
           <q-item-section class="card-header">
-            <q-item-label>{{post.id}}</q-item-label>
+            <q-item-label>{{post.ownerId}}</q-item-label>
             <q-item-label caption>{{niceDate(post.date)}}</q-item-label>
           </q-item-section>
         </q-item>
-        <img class="mainPic" :src="post.imageUrl">
+        <img class="mainPic" :src="post.image">
         <q-card-section class="card-footer">
           <div class="text-subtitle1 text-weight-medium text-center">{{post.title}}</div>
         </q-card-section>
@@ -48,13 +48,14 @@
 <script>
 import { defineComponent } from 'vue'
 import { date } from 'quasar'
-import { mapGetters } from 'vuex'
 import Posts from '../services/Posts'
 
 export default defineComponent({
   name: 'Feed',
-  computed: {
-    ...mapGetters('posts', ['posts'])
+  data() {
+    return {
+      feed: null
+    }
   },
   methods: {
     niceDate: function(value) {
@@ -64,7 +65,7 @@ export default defineComponent({
     }
   },
   async mounted () {
-    this.feed = await Posts.getFeed()
+    this.feed = (await Posts.getFeed()).data
   }
 })
 </script>
