@@ -19,10 +19,29 @@ module.exports  = {
         try {
             const post = await Post.create(req.body)
             res.send(post)
-        } catch (err) {
-            console.log('we are here', err)
+        } catch {
             res.status(500).send({
                 error: 'An error occured while creating the post'
+            })
+        }
+    },
+
+    async getPost (req, res) {
+        try {
+            const post = await Post.findOne({   //tries to find a user with the given email               
+                where: {
+                    id: req.params.id
+                }
+            })
+            if (!post) {                        //if such a user is  not found
+                return res.status(404).send({
+                    error: 'Could not find the post required'
+                })
+            }
+            res.send(post)
+        } catch {
+            res.status(500).send({
+                error: 'An error occured trying to fetch the post'
             })
         }
     }
