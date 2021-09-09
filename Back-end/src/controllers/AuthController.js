@@ -60,4 +60,21 @@ module.exports  = {
         }
     },
 
+    async deleteUser (req, res) {
+        try { 
+            await User.destroy({
+                where: {
+                    id: req.body.id
+                }
+            })
+            res.status(200).send({
+                message: 'Profile successfully deleted'
+            })
+        } catch {
+            res.status(500).send ({
+                error: 'An error has occured while trying to delete your profile'
+            })
+        }
+    }
+
 }
