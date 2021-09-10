@@ -6,7 +6,7 @@
   "author": "Kevin Le Van Phung <levanphungk@gmail.com>",
   "private": true,
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
+    "start": "quasar dev"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
