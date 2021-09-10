@@ -6,10 +6,12 @@ module.exports = {
             name: Joi.string().regex(       //using a regex
                 new RegExp('^[a-zA-Z0-9]{2,15}$')
             ),
+            profilePic: Joi.string(),
             email: Joi.string().email(),    //using the email format given by joi
             password: Joi.string().regex(
                 new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,32}$')
-            )
+            ),
+            role: Joi.string()
         })
 
         const {error} = schema.validate(req.body)   //returns an error if the validation fails
@@ -23,6 +25,11 @@ module.exports = {
                         <br>
                         2. It must have between 2 and 15 characters
                         `
+                    })
+                    break
+                case 'profilePic':                        //if the profilePic is at fault
+                    res.status(400).send({
+                        error: `You need to have a profile picture`
                     })
                     break
                 case 'email':                   //if the email is at fault
@@ -42,6 +49,11 @@ module.exports = {
                         <br>
                         4. It must have between 8 and 32 characters
                         `
+                    })
+                    break
+                case 'role':                        //if the profilePic is at fault
+                    res.status(400).send({
+                        error: `role non attribué`
                     })
                     break
                 default:                        //if somehow there was a problem
