@@ -9,7 +9,7 @@ module.exports = {
             commentCount: Joi.number().integer().default(0)
         })
 
-        const {error} = schema.validate(req.body)   //returns an error if the validation fails
+        const {error} = schema.validate(req.body.post)   //returns an error if the validation fails
         if (error) {
             switch (error.details[0].context.key) { //finds the reason of the error
                 case 'title':                        //if the name is at fault
@@ -38,7 +38,6 @@ module.exports = {
                     })
             }
         } else {        //if the validation of the information was a success
-            console.log('everything\'s fine!', res)
             next()
         }
         

@@ -1,4 +1,5 @@
 const {Post} = require('../models') //models
+const {User} = require('../models') //models
 const {Comment} = require('../models')
 
 module.exports  = {
@@ -18,7 +19,18 @@ module.exports  = {
 
     async createPost (req, res) {
         try {
-            const post = await Post.create(req.body)
+            const owner = await User.findOne({   //tries to find a user with the given email               
+                where: {
+                    id: req.body.userId
+                }
+            })
+            if(!owner) {
+                res.status(404).send({
+                    error: 'Could not find the user trying to create this post'
+                })
+            }
+            const post = await Post.create(req.body.post)
+            owner.addPost(post)
             res.send(post)
         } catch {
             res.status(500).send({
