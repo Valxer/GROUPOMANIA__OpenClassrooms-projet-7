@@ -18,14 +18,8 @@ module.exports  = {
     async signin (req, res) {
         try {
             req.body.email = cryptojs.AES.encrypt(req.body.email, key, { iv: iv }).toString()
-            console.log('ok pour mail')
-            console.log('pic: ',req.body.profilePic)
-            req.body.password = await bcrypt.hash(req.body.password, 10)
-            console.log('ok pour pass')   //hashes the password
-            console.log('role: ',req.body.role)
-            console.log('body: ',req.body)
+            req.body.password = await bcrypt.hash(req.body.password, 10)   //hashes the password
             const user = await User.create(req.body)    //creates a new user
-            console.log('ok pour creation')
             res.send(user.toJSON())
         } catch (err) {                                 // email already exists
             res.status(400).send({
