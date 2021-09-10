@@ -14,6 +14,13 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 require('./routes')(app)
 
+const {User} = require('./models')
+const {Post} = require('./models')
+const {Comment} = require('./models')
+User.hasMany(Post, {as: 'Posts', foreignKey: 'ownerId', onDelete: 'CASCADE'})
+User.hasMany(Comment, {as: 'comments', foreignKey: 'ownerId', onDelete: 'CASCADE'})
+Post.hasMany(Comment, {as: 'comments', foreignKey: 'postId', onDelete: 'CASCADE'})
+
 sequelize.sync()    //{force: true} to clear DB
     .then(() => {
         app.listen(config.port)
