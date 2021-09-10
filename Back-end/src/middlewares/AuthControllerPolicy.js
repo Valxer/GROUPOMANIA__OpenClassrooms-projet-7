@@ -5,12 +5,12 @@ module.exports = {
         const schema = Joi.object({         // sets the verification criteria for the creation of a new user
             name: Joi.string().regex(       //using a regex
                 new RegExp('^[a-zA-Z0-9]{2,15}$')
-            ),
+            ).required(),
             profilePic: Joi.string().default('https://i.imgur.com/tdi3NGa.png'),
-            email: Joi.string().email(),    //using the email format given by joi
+            email: Joi.string().email().required(),    //using the email format given by joi
             password: Joi.string().regex(
                 new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,32}$')
-            ),
+            ).required(),
             role: Joi.string().alphanum().valid('admin', 'user').default('user')
         })
 
