@@ -7,7 +7,7 @@ module.exports = {
             date: Joi.date().timestamp().required()
         })
 
-        const {error} = schema.validate(req.body)   //returns an error if the validation fails
+        const {error} = schema.validate(req.body.comment)   //returns an error if the validation fails
         if (error) {
             switch (error.details[0].context.key) { //finds the reason of the error
                 case 'content':                        //if the name is at fault

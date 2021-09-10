@@ -28,10 +28,11 @@ module.exports  = {
                 res.status(404).send({
                     error: 'Could not find the user trying to create this post'
                 })
+            } else {
+                const post = await Post.create(req.body.post)
+                owner.addPost(post)
+                res.send(post)
             }
-            const post = await Post.create(req.body.post)
-            owner.addPost(post)
-            res.send(post)
         } catch {
             res.status(500).send({
                 error: 'An error occured while creating the post'

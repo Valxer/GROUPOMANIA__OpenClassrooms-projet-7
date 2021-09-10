@@ -1,4 +1,6 @@
 const {Comment} = require('../models') //models
+const {Post} = require('../models') //models
+const {User} = require('../models') //models
 
 module.exports  = {
     async getComments (req, res) {
@@ -25,8 +27,32 @@ module.exports  = {
 
     async createComment (req, res) {
         try{
-            const comment = await Comment.create(req.body)
-            res.send(comment)
+            const owner = await User.findOne({   //tries to find a user with the given email               
+                where: {
+                    id: req.body.userId
+                }
+            })
+            if(!owner) {
+                res.status(404).send({
+                    error: 'Could not find the user trying to create this comment'
+                })
+            } else {
+                const post = await Post.findOne({   //tries to find a user with the given email               
+                    where: {
+                        id: req.body.postId
+                    }
+                })
+                if(!post) {
+                    res.status(404).send({
+                        error: 'Could not find the post you are trying to comment'
+                    })
+                } else {
+                    const comment = await Comment.create(req.body.comment)
+                    owner.addComment(comment)
+                    post.addComment(comment)
+                    res.send(comment)
+                }
+            }
         } catch {
             res.status(500).send({
                 error: 'An error occured trying to create your comment'
