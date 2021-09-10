@@ -4,7 +4,6 @@ module.exports = {
     createPost (req, res, next) {
         const schema = Joi.object({         // sets the verification criteria for the creation of a new post
             title: Joi.string().min(2).max(140).required(),
-            ownerId: Joi.number().integer().required(),
             date: Joi.date().timestamp().required(),    //using the email format given by joi
             image: Joi.string().required(),
             commentCount: Joi.number().integer().default(0)
@@ -16,11 +15,6 @@ module.exports = {
                 case 'title':                        //if the name is at fault
                     res.status(400).send({
                         error: `The title must have between 2 and 140 characters`
-                    })
-                    break
-                case 'ownerId':                        //if the profilePic is at fault
-                    res.status(400).send({
-                        error: `not a valid ownerId`
                     })
                     break
                 case 'date':                   //if the email is at fault

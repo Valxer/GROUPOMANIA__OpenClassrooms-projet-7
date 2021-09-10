@@ -4,10 +4,6 @@ module.exports = (sequelize, DataTypes) =>
             type: DataTypes.STRING,
             allowNull: false
         },
-        ownerId: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
         date: {
             type: 'TIMESTAMP',
             allowNull: false
