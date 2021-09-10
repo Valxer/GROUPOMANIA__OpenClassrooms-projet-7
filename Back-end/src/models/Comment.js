@@ -7,13 +7,5 @@ module.exports = (sequelize, DataTypes) =>
         date: {
             type: 'TIMESTAMP',
             allowNull: false
-        },
-        ownerId: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        postId: {
-            type: DataTypes.INTEGER,
-            allowNull: false
         }
     })
