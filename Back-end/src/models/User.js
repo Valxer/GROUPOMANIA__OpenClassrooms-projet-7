@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) =>
         profilePic:{
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: 'https://i.imgur.com/tdi3NsGa.png'
+            defaultValue: 'https://i.imgur.com/tdi3NGa.png'
         },
         email: {
             type: DataTypes.STRING,
