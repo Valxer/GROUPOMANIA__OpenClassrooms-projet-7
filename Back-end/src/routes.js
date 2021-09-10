@@ -3,6 +3,7 @@ const PostsController = require('./controllers/PostsController')
 const CommentsController = require('./controllers/CommentsController')
 
 const AuthControllerPolicy = require('./middlewares/AuthControllerPolicy')
+const Postpolicy = require('./middlewares/PostPolicy')
 // const multer = require('./middlewares')
 
 module.exports = (app) => {
@@ -12,7 +13,7 @@ module.exports = (app) => {
     app.delete('/profile', AuthController.deleteUser)
     //Post requests
     app.get('/feed', PostsController.getFeed)
-    app.post('/post', PostsController.createPost)
+    app.post('/post', Postpolicy.createPost, PostsController.createPost)
     app.get('/post/:id', PostsController.getPost, CommentsController.getComments)
     app.delete('/post/:id', PostsController.deletePost)
     //Comment requests

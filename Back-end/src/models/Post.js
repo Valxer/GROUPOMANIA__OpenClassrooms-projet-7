@@ -15,5 +15,9 @@ module.exports = (sequelize, DataTypes) =>
         image: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        commentCount: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0
         }
     })
