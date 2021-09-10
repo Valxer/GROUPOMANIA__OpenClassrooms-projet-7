@@ -6,12 +6,12 @@ module.exports = {
             name: Joi.string().regex(       //using a regex
                 new RegExp('^[a-zA-Z0-9]{2,15}$')
             ),
-            profilePic: Joi.string(),
+            profilePic: Joi.string().default('https://i.imgur.com/tdi3NGa.png'),
             email: Joi.string().email(),    //using the email format given by joi
             password: Joi.string().regex(
                 new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,32}$')
             ),
-            role: Joi.string()
+            role: Joi.string().alphanum().valid('admin', 'user').default('user')
         })
 
         const {error} = schema.validate(req.body)   //returns an error if the validation fails
