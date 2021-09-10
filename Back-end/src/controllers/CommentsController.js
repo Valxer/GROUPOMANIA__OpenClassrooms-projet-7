@@ -47,8 +47,7 @@ module.exports  = {
                         error: 'Could not find the post you are trying to comment'
                     })
                 } else {
-                    const comment = await Comment.create(req.body.comment)
-                    owner.addComment(comment)
+                    const comment = await owner.createComment(req.body.comment)
                     post.addComment(comment)
                     res.send(comment)
                 }

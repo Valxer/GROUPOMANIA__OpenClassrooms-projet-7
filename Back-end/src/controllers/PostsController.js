@@ -29,8 +29,7 @@ module.exports  = {
                     error: 'Could not find the user trying to create this post'
                 })
             } else {
-                const post = await Post.create(req.body.post)
-                owner.addPost(post)
+                const post = await owner.createPost(req.body.post)
                 res.send(post)
             }
         } catch {
