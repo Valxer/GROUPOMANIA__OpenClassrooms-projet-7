@@ -21,6 +21,7 @@
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
+    "multer": "^1.4.3",
     "nodemon": "^2.0.12",
     "path": "^0.12.7",
     "sequelize": "^6.6.5",
