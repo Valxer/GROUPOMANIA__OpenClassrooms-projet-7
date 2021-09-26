@@ -16,7 +16,8 @@ module.exports = (app) => {
     //Post requests
     app.get('/feed', PostsController.getFeed)
     app.post('/post', Postpolicy.createPost, PostsController.createPost)
-    app.get('/post/:id', PostsController.getPost, CommentsController.getComments)
+    app.get('/post/:id', PostsController.getPost)
+    app.put('/post/edit/:id', PostsController.editPost)
     app.delete('/post/:id', PostsController.deletePost)
     //Comment requests
     app.get('/post/:id/comments', CommentsController.getComments)

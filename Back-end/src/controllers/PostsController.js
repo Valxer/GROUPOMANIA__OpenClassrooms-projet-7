@@ -92,6 +92,31 @@ module.exports  = {
         }
     },
 
+    async editPost (req, res) {
+        try {
+            const post = await Post.update(req.body, {
+                where: {
+                    id: req.params.id
+                }
+            })
+            if (!post) {
+                return res.status(404).send({
+                    error: 'Couldn\'t update the Post'
+                })
+            }
+            const updated = await Post.findOne({
+                where: {
+                    id: req.params.id
+                }
+            })
+            res.status(200).send(updated)
+        } catch {
+            res.status(500).send({
+                error: 'An error occured trying to update the Post'
+            })
+        }
+    },
+
     async deletePost (req, res) {
         try {
             await Post.destroy({   //tries to find a user with the given email               
