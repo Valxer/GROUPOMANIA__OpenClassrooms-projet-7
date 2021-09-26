@@ -1,14 +1,17 @@
-const {Post} = require('../models') //models
+const {Post, sequelize} = require('../models') //models
 const {User} = require('../models') //models
 const {Comment} = require('../models')
 
 module.exports  = {
     async getFeed (req, res) {
         try {
-            const posts = await Post.findAll({
-                limit: 20,
-                order: [['createdAt', 'DESC']]
-            })
+            const posts = await Post.sequelize.query('SELECT Posts.id, Posts.title, Posts.date, Posts.image, Posts.commentCount, Users.name, Users.profilePic FROM Posts LEFT JOIN Users ON Posts.ownerId = Users.id ORDER BY Posts.date DESC LIMIT 0,30',
+                {type: sequelize.QueryTypes.SELECT}
+            )
+            // const posts = await Post.findAll({
+            //     limit: 20,
+            //     order: [['createdAt', 'DESC']]
+            // })
             res.send(posts)
         } catch {
             res.status(500).send({
@@ -41,22 +44,38 @@ module.exports  = {
 
     async getPost (req, res, next) {
         try {
-            const post = await Post.findOne({   //tries to find a user with the given email               
-                where: {
-                    id: req.params.id
+            const post = await Post.sequelize.query('SELECT Posts.id, Posts.title, Posts.date, Posts.image, Posts.commentCount, Users.name, Users.profilePic FROM Posts INNER JOIN Users ON Posts.ownerId = Users.id WHERE Posts.id = :id',
+                {
+                    replacements: {
+                        id : req.params.id
+                    },
+                    type: sequelize.QueryTypes.SELECT
                 }
-            })
+            )
+            // const post = await Post.findOne({   //tries to find a user with the given email               
+            //     where: {
+            //         id: req.params.id
+            //     }
+            // })
             if (!post) {                        //if such a user is  not found
                 return res.status(404).send({
                     error: 'The post you are looking for doesn\'t exist'
                 })
             }
-            const comments = await Comment.findAll({
-                where: {
-                    postId: req.params.id
-                },
-                order: [['createdAt', 'DESC']]
-            })
+            const comments = await Comment.sequelize.query('SELECT Users.name, Users.profilePic, Comments.content, Comments.date FROM Comments LEFT JOIN Users ON Comments.ownerId = Users.id WHERE Comments.PostId = :id ORDER BY Comments.date DESC LIMIT 0,30',
+                {
+                    replacements: {
+                        id : req.params.id
+                    },
+                    type: sequelize.QueryTypes.SELECT
+                }
+            )
+            // const comments = await Comment.findAll({
+            //     where: {
+            //         postId: req.params.id
+            //     },
+            //     order: [['createdAt', 'DESC']]
+            // })
             if (!comments) {                        //if such a user is  not found
                 return res.status(404).send({
                     error: 'The comments you are looking for don\'t exist'
