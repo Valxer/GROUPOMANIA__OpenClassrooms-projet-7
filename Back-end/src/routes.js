@@ -11,6 +11,7 @@ module.exports = (app) => {
     //User requests
     app.post('/signin',AuthControllerPolicy.signin, AuthController.signin)
     app.post('/login', AuthController.login)
+    app.get('/profile', AuthController.getUser)
     app.delete('/profile', AuthController.deleteUser)
     //Post requests
     app.get('/feed', PostsController.getFeed)

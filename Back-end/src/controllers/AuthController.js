@@ -60,6 +60,26 @@ module.exports  = {
         }
     },
 
+    async getUser (req, res) {
+        try {
+            const user = await User.findOne({
+                where: {
+                    id: req.body.id
+                } 
+            })
+            if (!user) {
+                res.status(404).send({
+                    error: 'Couldn\'t find the user requested' 
+                })
+            }
+            res.status(200).send(user)
+        } catch (err) {
+            res.status(500).send({
+                error: 'An error has occured trying to fetch user informations'
+            })
+        }
+    },
+
     async deleteUser (req, res) {
         try { 
             await User.destroy({
