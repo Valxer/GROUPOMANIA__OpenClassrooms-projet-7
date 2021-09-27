@@ -10,19 +10,26 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img class="profilePic" src="https://cdn.quasar.dev/img/avatar2.jpg">
+              <img class="profilePic" :src="post.profilePic">
             </q-avatar>
           </q-item-section>
 
           <q-item-section class="card-header">
-            <q-item-label>{{post.ownerId}}</q-item-label>
+            <q-item-label>{{post.name}}</q-item-label>
             <q-item-label caption>{{niceDate(post.date)}}</q-item-label>
           </q-item-section>
         </q-item>
         <img class="mainPic" :src="post.image">
         <q-card-section class="card-footer">
           <div class="text-subtitle1 text-weight-medium text-center">{{post.title}}</div>
+          <div>
+            <q-icon color="primary" name="eva-message-square-outline" size="20px"/>
+            {{post.commentCount}}
+          </div>
         </q-card-section>
+        <!-- <q-card-section class="card-comments center">
+          
+        </q-card-section> -->
       </q-card>
     </div>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -81,6 +88,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
   .my-card{
+    &:hover{
+      pointer-events: fill;
+      cursor: pointer;
+    }
     width: 100%;
     .mainPic{
       max-height: 600px;
