@@ -4,7 +4,7 @@ module.exports = {
     createComment (req, res, next) {
         const schema = Joi.object({         // sets the verification criteria for the creation of a new post
             content: Joi.string().min(2).max(280).required(),
-            date: Joi.date().timestamp().required()
+            date: Joi.date().timestamp().default(Date.now())
         })
 
         const {error} = schema.validate(req.body.comment)   //returns an error if the validation fails

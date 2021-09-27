@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) =>
         },
         date: {
             type: 'TIMESTAMP',
-            allowNull: false
+            allowNull: false,
+            defaultValue: Date.now()
         }
     })
