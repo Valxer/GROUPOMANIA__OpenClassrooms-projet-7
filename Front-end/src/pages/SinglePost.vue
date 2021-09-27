@@ -1,5 +1,5 @@
 <template>
-  <q-page class="constrain q-pa-xl">
+  <q-page class="constrain q-px-xl q-pt-xl q-pb-sm">
     <div class="feedsection row justify-center q-gutter-xl q-mb-xl">
       <!-- <p v-if="isFetched">lecture du titre : {{post.post.title}}</p> -->
       <q-card
@@ -19,12 +19,13 @@
           </q-item-section>
         </q-item>
         <img class="mainPic" :src="post.post.image">
-        <q-card-section class="card-footer">
+        <q-card-section class="card-footer q-mb-sm">
           <div class="text-subtitle1 text-weight-medium text-center">{{post.post.title}}</div>
         </q-card-section>
 
         <q-separator inset color="primary" />
-        <div class="q-my-sm q-ml-sm text-subtitle1 text-weight-medium comment-section">Commentaires</div>
+
+        <div class="q-my-sm q-ml-md text-subtitle1 text-weight-medium comment-section">Commentaires</div>
         <q-card
           class="comment-card"
           v-for="comment in post.comments"
@@ -40,6 +41,29 @@
               <q-item-label class="text-caption text-weight-medium">{{comment.name}}</q-item-label>
               <div class="text-caption comment-content">{{comment.content}}</div>
               <q-item-label class="text-caption comment-date" caption>{{niceDate(comment.date)}}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-card>
+
+        <q-separator inset color="primary q-mb-sm q-mt-lg" />
+
+        <div class="q-my=b-sm q-ml-md text-subtitle1 text-weight-medium comment-section">Répondre</div>
+        <q-card class="answser-card">
+          <q-item>
+            <q-item-section avatar>
+              <q-avatar>
+                <img class="profilePic" :src="post.post.profilePic">
+              </q-avatar>
+            </q-item-section>
+            <q-item-section class="answer-header">
+              <q-input
+                class="col q-mb-md textInput"
+                autogrow
+                v-model="answer.content"
+                label="Réponse"
+                label-color="primary"
+                color="primary"
+              />
             </q-item-section>
           </q-item>
         </q-card>
@@ -76,7 +100,10 @@ export default defineComponent({
   data() {
     return {
       post: null,
-      isFetched: false
+      isFetched: false,
+      answer: {
+        content: ''
+      }
     }
   },
   methods: {
