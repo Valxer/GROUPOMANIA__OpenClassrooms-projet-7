@@ -57,11 +57,12 @@ import { mapActions } from 'vuex'
 export default defineComponent({
   name: 'MainLayout',
   methods: {
-    ...mapActions('client', ['setName', 'setToken', 'setId', 'setProfilePic']),
+    ...mapActions('client', ['setName', 'setToken', 'setId', 'setProfilePic', 'setPrivileges']),
     logout() {
       this.setName(null)
       this.setId(null)
       this.setProfilePic(null)
+      this.setPrivileges(null)
       this.setToken(null)
       console.log('Deconnecting...')
       this.$router.push({

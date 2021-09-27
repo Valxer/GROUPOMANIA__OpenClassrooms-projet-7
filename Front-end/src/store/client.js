@@ -3,7 +3,8 @@ const state = {
     token: null,
     name: null,
     profilePic: null,
-    isLoggedIn: false
+    isLoggedIn: false,
+    isAdmin: false
 }
 
 const mutations = {
@@ -25,6 +26,16 @@ const mutations = {
     },
     setProfilePic (state, profilePic) {
         state.profilePic = profilePic
+    },
+    setPrivileges (state, role) {
+        if (role === 'admin') {
+            console.log('Welcome admin')
+            state.isAdmin = true
+        }
+        else {
+            console.log('Hello random')
+            state.isAdmin = false
+        }
     }
 }
 
@@ -44,6 +55,10 @@ const actions = {
     setProfilePic ({commit}, profilePic) {
         console.log('setting up profile pic')
         commit('setProfilePic', profilePic)
+    },
+    setPrivileges({commit}, role) {
+        console.log('setting up privileges')
+        commit('setPrivileges', role)
     }
 }
 

@@ -74,17 +74,18 @@ export default defineComponent({
     resetpass() {
       this.$refs.pass.resetValidation()
     },
-    ...mapActions('client', ['setToken', 'setName', 'setId', 'setProfilePic']),
+    ...mapActions('client', ['setToken', 'setName', 'setId', 'setProfilePic', 'setPrivileges']),
     async login() {
       try {
         const response = await Auth.login({
           email: this.user.email,
           password: this.user.password
         })
-        this.setToken(response.data.token)
         this.setName(response.data.user.name)
         this.setId(response.data.user.id)
         this.setProfilePic(response.data.user.profilePic)
+        this.setToken(response.data.token)
+        this.setPrivileges(response.data.user.role)
         console.log('Connexion complete')
         this.$router.push({
           name: 'feed'
