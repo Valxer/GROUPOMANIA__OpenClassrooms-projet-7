@@ -48,7 +48,8 @@ module.exports  = {
                 })
             }
 
-            const userJson = user.toJSON()      //success an we respond to the request
+            const userJson = (({id, name, profilePic}) => ({id, name, profilePic}))(user)
+            // const userJson = user.toJSON()      //success an we respond to the request
             res.send({
                 user: userJson,
                 token: jwtSignUser(userJson)
