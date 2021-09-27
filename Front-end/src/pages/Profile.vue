@@ -39,6 +39,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { ref } from 'vue'
+import { mapState } from 'vuex'
 
 export default defineComponent({
   name: 'Login',
@@ -46,6 +47,9 @@ export default defineComponent({
     return {
       suppress: ref(false)
     }
+  },
+  computed:{
+    ...mapState(['profilePic', 'name'])
   }
 })
 </script>
