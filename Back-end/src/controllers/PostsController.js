@@ -70,8 +70,9 @@ module.exports  = {
                     error: 'The comments you are looking for don\'t exist'
                 })
             }
+            const postJson = post[0]
             res.send({
-                post: post,
+                post: postJson,
                 comments: comments
             })
         } catch {
