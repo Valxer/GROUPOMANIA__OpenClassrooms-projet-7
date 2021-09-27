@@ -52,12 +52,7 @@ module.exports  = {
                     type: sequelize.QueryTypes.SELECT
                 }
             )
-            // const post = await Post.findOne({   //tries to find a user with the given email               
-            //     where: {
-            //         id: req.params.id
-            //     }
-            // })
-            if (!post) {                        //if such a user is  not found
+            if (!post) {                        //if such a post is  not found
                 return res.status(404).send({
                     error: 'The post you are looking for doesn\'t exist'
                 })
@@ -70,13 +65,7 @@ module.exports  = {
                     type: sequelize.QueryTypes.SELECT
                 }
             )
-            // const comments = await Comment.findAll({
-            //     where: {
-            //         postId: req.params.id
-            //     },
-            //     order: [['createdAt', 'DESC']]
-            // })
-            if (!comments) {                        //if such a user is  not found
+            if (!comments) {                        //if such a comment is  not found
                 return res.status(404).send({
                     error: 'The comments you are looking for don\'t exist'
                 })
@@ -119,7 +108,7 @@ module.exports  = {
 
     async deletePost (req, res) {
         try {
-            await Post.destroy({   //tries to find a user with the given email               
+            await Post.destroy({   //suppresses the given post             
                 where: {
                     id: req.params.id
                 }
