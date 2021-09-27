@@ -95,8 +95,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-  .comment-section {
-  }
   .comment-date {
     font-size: 10px;
   }
