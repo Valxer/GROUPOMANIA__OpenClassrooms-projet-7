@@ -43,12 +43,19 @@ module.exports  = {
                     }
                 })
                 if(!post) {
-                    res.status(404).send({
+                    return res.status(404).send({
                         error: 'Could not find the post you are trying to comment'
                     })
                 } else {
                     const comment = await owner.createComment(req.body.comment)
+                    if (!comment) {
+                        return res.status(500).send({
+                            error: 'Could\'nt create the comment'
+                        })
+                    }
                     post.addComment(comment)
+                    post.commentCount++
+                    await post.save()
                     res.send(comment)
                 }
             }
@@ -61,11 +68,35 @@ module.exports  = {
 
     async deleteComment (req, res) {
         try {
+            const comment = await Comment.findOne({
+                where: {
+                    id: req.params.id
+                }
+            })
+            if (!comment) {
+                return res.status(404).send({
+                    error: 'Could\'nt find the comment'
+                })
+            }
+            const post = await Post.findOne({
+                where: {
+                    id: comment.postId
+                }
+            })
+            if (!post) {
+                return res.status(404).send({
+                    error: 'Couldn\'t find the post which the comment is linked to'
+                })
+            }
+            console.log('post found', post)
             await Comment.destroy({   //tries to find a user with the given email               
                 where: {
                     id: req.params.id
                 }
             })
+            post.commentCount--
+            console.log('post modified', post)
+            await post.save()
             res.status(200).send({
                 message: 'Comment successfully deleted'
             })
