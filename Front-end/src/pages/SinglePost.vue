@@ -1,26 +1,48 @@
 <template>
   <q-page class="constrain q-pa-xl">
     <div class="feedsection row justify-center q-gutter-xl q-mb-xl">
+      <!-- <p v-if="isFetched">lecture du titre : {{post.post.title}}</p> -->
       <q-card
-        class="my-card"
-        :key="data.post.id"
+      v-if="isFetched"
+        class="post-card"
+        :key="post.post.id"
       >
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img class="profilePic" src="https://cdn.quasar.dev/img/avatar2.jpg">
+              <img class="profilePic" :src="post.post.profilePic">
             </q-avatar>
           </q-item-section>
-
           <q-item-section class="card-header">
-            <q-item-label>{{data.post.ownerId}}</q-item-label>
-            <q-item-label caption>{{niceDate(data.post.date)}}</q-item-label>
+            <q-item-label>{{post.post.name}}</q-item-label>
+            <q-item-label caption>{{niceDate(post.post.date)}}</q-item-label>
           </q-item-section>
         </q-item>
-        <img class="mainPic" :src="data.post.image">
+        <img class="mainPic" :src="post.post.image">
         <q-card-section class="card-footer">
-          <div class="text-subtitle1 text-weight-medium text-center">{{data.post.title}}</div>
+          <div class="text-subtitle1 text-weight-medium text-center">{{post.post.title}}</div>
         </q-card-section>
+
+        <q-separator inset color="primary" />
+        <div class="q-my-sm q-ml-sm text-subtitle1 text-weight-medium comment-section">Commentaires</div>
+        <q-card
+          class="comment-card"
+          v-for="comment in post.comments"
+          :key="comment.id"
+        >
+          <q-item>
+            <q-item-section avatar>
+              <q-avatar>
+                <img class="profilePic" :src="comment.profilePic">
+              </q-avatar>
+            </q-item-section>
+            <q-item-section class="comment-header flex-row">
+              <q-item-label class="text-caption text-weight-medium">{{comment.name}}</q-item-label>
+              <div class="text-caption comment-content">{{comment.content}}</div>
+              <q-item-label class="text-caption comment-date" caption>{{niceDate(comment.date)}}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-card>
       </q-card>
     </div>
     <q-page-sticky position="bottom-right" :offset="[18, 18]">
@@ -53,17 +75,8 @@ export default defineComponent({
   name: 'SinglePost',
   data() {
     return {
-        data: {
-            post: {
-                id: 1,
-                title: "Le pont d'Avignon",
-                ownerId: 1,
-                date: 1631169953600,
-                image: "https://i.imgur.com/SnuAkUm.jpeg",
-                createdAt: "2021-09-09T07:35:42.775Z",
-                updatedAt: "2021-09-09T07:35:42.775Z"
-            }
-        }
+      post: null,
+      isFetched: false
     }
   },
   methods: {
@@ -74,8 +87,20 @@ export default defineComponent({
     }
   },
   async mounted () {
-      this.data = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
-      console.log(this.data)
+    this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
+    console.log('données post', this.post)
+    this.isFetched = true
   }
 })
 </script>
+
+<style lang="scss" scoped>
+  .comment-section {
+  }
+  .comment-date {
+    font-size: 10px;
+  }
+  .comment-content{
+    line-height: normal;
+  }
+</style>
