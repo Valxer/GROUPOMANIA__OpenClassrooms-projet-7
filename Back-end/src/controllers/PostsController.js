@@ -8,10 +8,6 @@ module.exports  = {
             const posts = await Post.sequelize.query('SELECT Posts.id, Posts.title, Posts.date, Posts.image, Posts.commentCount, Users.name, Users.profilePic FROM Posts LEFT JOIN Users ON Posts.ownerId = Users.id ORDER BY Posts.date DESC LIMIT 0,30',
                 {type: sequelize.QueryTypes.SELECT}
             )
-            // const posts = await Post.findAll({
-            //     limit: 20,
-            //     order: [['createdAt', 'DESC']]
-            // })
             res.send(posts)
         } catch {
             res.status(500).send({

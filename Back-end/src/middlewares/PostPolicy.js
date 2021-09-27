@@ -4,7 +4,7 @@ module.exports = {
     createPost (req, res, next) {
         const schema = Joi.object({         // sets the verification criteria for the creation of a new post
             title: Joi.string().min(2).max(140).required(),
-            date: Joi.date().timestamp().required(),    //using the email format given by joi
+            date: Joi.date().timestamp().default(Date.now()),    //using the email format given by joi
             image: Joi.string().required(),
             commentCount: Joi.number().integer().default(0)
         })
