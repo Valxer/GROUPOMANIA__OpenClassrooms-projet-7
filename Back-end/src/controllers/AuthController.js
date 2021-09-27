@@ -63,6 +63,7 @@ module.exports  = {
     async getUser (req, res) {
         try {
             const user = await User.findOne({
+                attributes:['id', 'name', 'profilePic'],
                 where: {
                     id: req.body.id
                 } 
