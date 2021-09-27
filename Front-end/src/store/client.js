@@ -19,6 +19,12 @@ const mutations = {
     },
     setName (state, name) {
         state.name = name
+    },
+    setId (state, id) {
+        state.id = id
+    },
+    setProfilePic (state, profilePic) {
+        state.profilePic = profilePic
     }
 }
 
@@ -31,6 +37,14 @@ const actions = {
         console.log('setting up name')
         commit('setName', name)
     },
+    setId ({commit}, id) {
+        console.log('settting up id')
+        commit('setId', id)
+    },
+    setProfilePic ({commit}, profilePic) {
+        console.log('setting up profile pic')
+        commit('setProfilePic', profilePic)
+    }
 }
 
 const getters = {

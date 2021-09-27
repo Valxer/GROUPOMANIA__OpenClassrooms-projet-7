@@ -74,7 +74,7 @@ export default defineComponent({
     resetpass() {
       this.$refs.pass.resetValidation()
     },
-    ...mapActions('client', ['setToken', 'setName']),
+    ...mapActions('client', ['setToken', 'setName', 'setId', 'setProfilePic']),
     async login() {
       try {
         const response = await Auth.login({
@@ -83,6 +83,8 @@ export default defineComponent({
         })
         this.setToken(response.data.token)
         this.setName(response.data.user.name)
+        this.setId(response.data.user.id)
+        this.setProfilePic(response.data.user.profilePic)
         console.log('Connexion complete')
         this.$router.push({
           name: 'feed'
