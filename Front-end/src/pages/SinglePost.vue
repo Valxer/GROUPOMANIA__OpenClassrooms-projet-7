@@ -89,6 +89,13 @@
                 color="primary"
               />
             </q-item-section>
+            <q-btn
+              class="create-btn q-mt-md"
+              @click="createComment"
+              text-color="primary"
+              flat
+              icon-right="eva-paper-plane-outline"
+              />
           </q-item>
         </q-card>
       </q-card>
@@ -150,6 +157,11 @@ export default defineComponent({
       this.suppress = true
       console.log(this.selectedCommentId)
     },
+    handleEnter (e) {
+    	if (e.ctrlKey) return console.log('New line', e)
+      
+    	console.log('Send', e)
+    },
     async deleteComment() {
       try {
         const response = await Comments.deleteComment({
@@ -157,10 +169,22 @@ export default defineComponent({
         })
         console.log(response.data.message)
       } catch (error) {
-        console.log('error :',error)
+        console.log('error :', error)
         this.error = error.response.data.error
       }
-      alert('commentaire supprimé !')
+    },
+    async createComment() {
+      try {
+        const response = await Comments.createComment({
+          userId: this.id,
+          postId: this.post.post.id,
+          comment: this.answer
+        })
+        console.log(response.data.message)
+      } catch (error) {
+        console.log('error :', error)
+        this.error = error.response.data.error
+      }
     }
   },
   async mounted () {
@@ -184,7 +208,7 @@ export default defineComponent({
   .comment-none {
     color: $info
   }
-  .del-btn{
+  .del-btn, .create-btn{
     width: 20px;
     height: 20px;
   }
