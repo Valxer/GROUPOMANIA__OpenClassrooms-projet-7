@@ -24,7 +24,7 @@
       <q-card>
         <q-card-section class="column items-center">
           <q-avatar icon="eva-trash-2-outline" color="primary" text-color="accent" />
-          <span class="q-mt-md q-ml-sm">Êtes-vous sûr de vouloir supprimmer votre compte ?<br/>Celà supprimera toutes vos données et vos posts.</span>
+          <span class="q-mt-md q-ml-sm">Êtes-vous sûr de vouloir supprimer votre compte ?<br/>Celà supprimera toutes vos données et vos posts.</span>
         </q-card-section>
 
         <q-card-actions align="right">

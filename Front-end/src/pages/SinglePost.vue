@@ -43,6 +43,27 @@
                 <div class="text-caption comment-content">{{comment.content}}</div>
                 <q-item-label class="text-caption comment-date" caption>{{niceDate(comment.date)}}</q-item-label>
               </q-item-section>
+              <q-btn
+              v-if="id == comment.userId"
+              class="del-btn"
+              @click="suppress = true"
+              text-color="info"
+              flat
+              icon-right="eva-close-outline"
+              />
+              <q-dialog v-model="suppress" persistent>
+                <q-card>
+                  <q-card-section class="column items-center">
+                    <q-avatar icon="eva-trash-2-outline" color="primary" text-color="accent" />
+                    <span class="q-mt-md q-ml-sm">Êtes-vous sûr de vouloir supprimer ce commentaire ?</span>
+                  </q-card-section>
+
+                  <q-card-actions align="right">
+                    <q-btn flat label="Annuler" color="primary" v-close-popup />
+                    <q-btn flat label="Confirmer" color="primary" @click="deleteComment"/>
+                  </q-card-actions>
+                </q-card>
+              </q-dialog>
             </q-item>
           </q-card>
         </div>
@@ -95,8 +116,10 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { ref } from 'vue'
 import { date } from 'quasar'
 import Posts from '../services/Posts'
+import { mapState } from 'vuex'
 
 export default defineComponent({
   name: 'SinglePost',
@@ -107,14 +130,21 @@ export default defineComponent({
       hasComments: false,
       answer: {
         content: ''
-      }
+      },
+      suppress: ref(false)
     }
+  },
+  computed:{
+    ...mapState('client', ['id', 'isAdmin'])
   },
   methods: {
     niceDate: function(value) {
       return date.formatDate(value, 'Le D MMMM à HH:mm', {
         months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
       });
+    },
+    deleteComment() {
+      alert('commentaire supprimé !')
     }
   },
   async mounted () {
@@ -136,6 +166,10 @@ export default defineComponent({
     line-height: normal;
   }
   .comment-none {
-    color: rgba(0, 0, 0, 0.54)
+    color: $info
+  }
+  .del-btn{
+    width: 20px;
+    height: 20px;
   }
 </style>
