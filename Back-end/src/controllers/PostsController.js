@@ -38,7 +38,7 @@ module.exports  = {
         }
     },
 
-    async getPost (req, res, next) {
+    async getPost (req, res) {
         try {
             const post = await Post.sequelize.query('SELECT Posts.id, Posts.title, Posts.date, Posts.image, Posts.commentCount, Users.name, Users.profilePic FROM Posts INNER JOIN Users ON Posts.ownerId = Users.id WHERE Posts.id = :id',
                 {
