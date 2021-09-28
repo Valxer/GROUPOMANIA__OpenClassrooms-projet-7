@@ -26,25 +26,29 @@
         <q-separator inset color="primary" />
 
         <div class="q-my-sm q-ml-md text-subtitle1 text-weight-medium comment-section">Commentaires</div>
-        <q-card
-          class="comment-card"
-          v-for="comment in post.comments"
-          :key="comment.id"
-        >
-          <q-item>
-            <q-item-section avatar>
-              <q-avatar>
-                <img class="profilePic" :src="comment.profilePic">
-              </q-avatar>
-            </q-item-section>
-            <q-item-section class="comment-header flex-row">
-              <q-item-label class="text-caption text-weight-medium">{{comment.name}}</q-item-label>
-              <div class="text-caption comment-content">{{comment.content}}</div>
-              <q-item-label class="text-caption comment-date" caption>{{niceDate(comment.date)}}</q-item-label>
-            </q-item-section>
-          </q-item>
-        </q-card>
-
+        <div v-if="hasComments">
+          <q-card
+            class="comment-card"
+            v-for="comment in post.comments"
+            :key="comment.id"
+            flat
+          >
+            <q-item>
+              <q-item-section avatar>
+                <q-avatar>
+                  <img class="profilePic" :src="comment.profilePic">
+                </q-avatar>
+              </q-item-section>
+              <q-item-section class="comment-header flex-row">
+                <q-item-label class="text-caption text-weight-medium">{{comment.name}}</q-item-label>
+                <div class="text-caption comment-content">{{comment.content}}</div>
+                <q-item-label class="text-caption comment-date" caption>{{niceDate(comment.date)}}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-card>
+        </div>
+        <div v-else class="text-caption comment-content">Aucun commentaire</div>
+        
         <q-separator inset color="primary q-mb-sm q-mt-lg" />
 
         <div class="q-my=b-sm q-ml-md text-subtitle1 text-weight-medium comment-section">Répondre</div>
@@ -101,6 +105,7 @@ export default defineComponent({
     return {
       post: null,
       isFetched: false,
+      hasComments: false,
       answer: {
         content: ''
       }
@@ -116,6 +121,10 @@ export default defineComponent({
   async mounted () {
     this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
     this.isFetched = true
+    if (this.post.comments.length) {
+      this.hasComments = true
+    }
+    else { this.hasComments = false}
   }
 })
 </script>
