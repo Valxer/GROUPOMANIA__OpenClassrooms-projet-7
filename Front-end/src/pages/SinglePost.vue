@@ -46,7 +46,7 @@
               <q-btn
               v-if="id == comment.userId"
               class="del-btn"
-              @click="suppress = true"
+              @click="selectComment(comment.id)"
               text-color="info"
               flat
               icon-right="eva-close-outline"
@@ -60,7 +60,7 @@
 
                   <q-card-actions align="right">
                     <q-btn flat label="Annuler" color="primary" v-close-popup />
-                    <q-btn flat label="Confirmer" color="primary" @click="deleteComment"/>
+                    <q-btn flat label="Confirmer" color="primary" @click="deleteComment" v-close-popup/>
                   </q-card-actions>
                 </q-card>
               </q-dialog>
@@ -119,6 +119,7 @@ import { defineComponent } from 'vue'
 import { ref } from 'vue'
 import { date } from 'quasar'
 import Posts from '../services/Posts'
+import Comments from '../services/Comments'
 import { mapState } from 'vuex'
 
 export default defineComponent({
@@ -131,7 +132,8 @@ export default defineComponent({
       answer: {
         content: ''
       },
-      suppress: ref(false)
+      suppress: ref(false),
+      selectedCommentId: null
     }
   },
   computed:{
@@ -143,7 +145,21 @@ export default defineComponent({
         months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
       });
     },
-    deleteComment() {
+    selectComment(id) {
+      this.selectedCommentId = id
+      this.suppress = true
+      console.log(this.selectedCommentId)
+    },
+    async deleteComment() {
+      try {
+        const response = await Comments.deleteComment({
+          id: this.selectedCommentId
+        })
+        console.log(response.data.message)
+      } catch (error) {
+        console.log('error :',error)
+        this.error = error.response.data.error
+      }
       alert('commentaire supprimé !')
     }
   },
