@@ -46,11 +46,11 @@
             </q-item>
           </q-card>
         </div>
-        <div v-else class="text-caption comment-content">Aucun commentaire</div>
+        <div v-else class="q-ml-lg text-caption comment-none">Aucun commentaire</div>
         
         <q-separator inset color="primary q-mb-sm q-mt-lg" />
 
-        <div class="q-my=b-sm q-ml-md text-subtitle1 text-weight-medium comment-section">Répondre</div>
+        <div class="q-my=b-sm q-ml-md text-subtitle1 text-weight-medium comment-section">Commenter</div>
         <q-card class="answser-card">
           <q-item>
             <q-item-section avatar>
@@ -63,8 +63,8 @@
                 class="col q-mb-md textInput"
                 autogrow
                 v-model="answer.content"
-                label="Réponse"
-                label-color="primary"
+                label="Mon commentaire"
+                label-color="rgba(0, 0, 0, 0.54)"
                 color="primary"
               />
             </q-item-section>
@@ -132,7 +132,10 @@ export default defineComponent({
   .comment-date {
     font-size: 10px;
   }
-  .comment-content{
+  .comment-content {
     line-height: normal;
+  }
+  .comment-none {
+    color: rgba(0, 0, 0, 0.54)
   }
 </style>
