@@ -47,14 +47,15 @@ export default defineComponent({
       post:{
         title: '',
         date: Date.now(),
-        imageUrl: null
+        image: null
       },
       imageUpload: []
     }
   },
   methods: {
     captureImage(file) {
-      this.post.imageUrl = file
+      this.post.image = file
+      console.log('imageurl :', this.post.images)
     }
   }
 })
