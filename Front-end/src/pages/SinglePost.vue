@@ -115,7 +115,6 @@ export default defineComponent({
   },
   async mounted () {
     this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
-    console.log('données post', this.post)
     this.isFetched = true
   }
 })
