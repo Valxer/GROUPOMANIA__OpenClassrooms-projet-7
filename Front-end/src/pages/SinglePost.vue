@@ -1,7 +1,6 @@
 <template>
   <q-page class="constrain q-px-xl q-pt-xl q-pb-sm">
     <div class="feedsection row justify-center q-gutter-xl q-mb-xl">
-      <!-- <p v-if="isFetched">lecture du titre : {{post.post.title}}</p> -->
       <q-card
       v-if="isFetched"
         class="post-card"
