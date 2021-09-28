@@ -16,6 +16,31 @@ module.exports  = {
         }
     },
 
+    // async createPost (req, res) {
+    //     const postObject = JSON.parse(req.body.post)
+    //     try {
+    //         const owner = await User.findOne({   //tries to find a user with the given email               
+    //             where: {
+    //                 id: postObject.userId
+    //             }
+    //         })
+    //         if(!owner) {
+    //             res.status(404).send({
+    //                 error: 'Could not find the user trying to create this post'
+    //             })
+    //         } else {
+    //             const post = await owner.createPost({
+    //                 ...postObject.post,
+    //                 image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    //             })
+    //             res.send(post)
+    //         }
+    //     } catch {
+    //         res.status(500).send({
+    //             error: 'An error occured while creating the post'
+    //         })
+    //     }
+    // },
     async createPost (req, res) {
         try {
             const owner = await User.findOne({   //tries to find a user with the given email               
