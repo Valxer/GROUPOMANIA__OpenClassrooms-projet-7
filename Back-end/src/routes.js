@@ -12,7 +12,7 @@ module.exports = (app) => {
     app.post('/signin',AuthControllerPolicy.signin, AuthController.signin)
     app.post('/login', AuthController.login)
     app.get('/profile', AuthController.getUser)
-    app.delete('/profile', AuthController.deleteUser)
+    app.delete('/profile/:id', AuthController.deleteUser)
     //Post requests
     app.get('/feed', PostsController.getFeed)
     app.post('/post', Postpolicy.createPost, PostsController.createPost)

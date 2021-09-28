@@ -85,7 +85,7 @@ module.exports  = {
         try { 
             await User.destroy({
                 where: {
-                    id: req.body.id
+                    id: req.params.id
                 }
             })
             res.status(200).send({

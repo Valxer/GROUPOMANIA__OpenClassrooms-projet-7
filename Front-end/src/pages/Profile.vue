@@ -57,7 +57,6 @@ export default defineComponent({
   methods: {
     ...mapActions('client', ['setToken', 'setName', 'setId', 'setProfilePic', 'setPrivileges']),
     async deleteUser() {
-      console.log('trying to delete User with id', this.id)
       try {
         const response = await Auth.deleteUser({
           id: this.id
