@@ -70,12 +70,12 @@ export default defineComponent({
       for ( var key in this.post ) {
         formData.append(key, this.post[key]);
       }
-      console.log('formData :', formData)
-      var object = {};
-      formData.forEach(function(value, key){
-      object[key] = value;
-      })
-      console.log("object :" , object)
+      // console.log('formData :', formData)
+      // var object = {};
+      // formData.forEach(function(value, key){
+      // object[key] = value;
+      // })
+      // console.log("object :" , object)
     }
   }
 })
