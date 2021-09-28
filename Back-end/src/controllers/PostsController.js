@@ -18,6 +18,7 @@ module.exports  = {
 
     // async createPost (req, res) {
     //     const postObject = JSON.parse(req.body.post)
+    //     console.log('body.post :', postObject)
     //     try {
     //         const owner = await User.findOne({   //tries to find a user with the given email               
     //             where: {

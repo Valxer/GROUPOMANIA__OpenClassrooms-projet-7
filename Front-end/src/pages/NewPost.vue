@@ -17,7 +17,7 @@
         bg-color="secondary"
         label-color="accent"
         style="width: 300px"
-        @input="captureImage"
+        @change="fileHandler"
       >
         <template v-slot:prepend>
           <q-icon name="eva-attach-outline" />
@@ -31,31 +31,51 @@
         text-color="secondary"
         label="Partager le post"
         style="width: 300px"
+        @click="submitPost"
         />
     </div>
   </q-page>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 import Posts from '../services/Posts'
+import { mapState } from 'vuex'
 
 export default defineComponent({
   name: 'NewPost',
   data() {
     return {
       post:{
+        userId: null,
         title: '',
         date: Date.now(),
-        image: null
+        file: ''
       },
       imageUpload: []
     }
   },
+  computed:{
+    ...mapState('client', ['id'])
+  },
   methods: {
-    captureImage(file) {
-      this.post.image = file
-      console.log('image :', this.post.images, 'imageUpload :', this.imageUpload)
+    fileHandler() {
+      this.post.file = this.imageUpload
+      console.log('imageUpload :', this.imageUpload, 'file', this.post.file)
+    },
+    submitPost() {
+      console.log(this.id)
+      this.post.userId = this.id
+      let formData = new FormData()
+      for ( var key in this.post ) {
+        formData.append(key, this.post[key]);
+      }
+      console.log('formData :', formData)
+      var object = {};
+      formData.forEach(function(value, key){
+      object[key] = value;
+      })
+      console.log("object :" , object)
     }
   }
 })
