@@ -55,7 +55,7 @@ export default defineComponent({
   methods: {
     captureImage(file) {
       this.post.image = file
-      console.log('imageurl :', this.post.images)
+      console.log('image :', this.post.images, 'imageUpload :', this.imageUpload)
     }
   }
 })
