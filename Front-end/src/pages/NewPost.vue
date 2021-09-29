@@ -56,7 +56,7 @@ export default defineComponent({
     }
   },
   computed:{
-    ...mapState('client', ['id'])
+    ...mapState('client', ['id', 'token'])
   },
   methods: {
     fileHandler() {
@@ -70,7 +70,8 @@ export default defineComponent({
         formData.append(key, this.post[key]);
       }
       try{
-        const response = await Posts.createPost(formData)
+        console.log('token', this.token)
+        const response = await Posts.createPost(formData, this.token)
         console.log(response)
         this.$router.push({
           name: 'feed'

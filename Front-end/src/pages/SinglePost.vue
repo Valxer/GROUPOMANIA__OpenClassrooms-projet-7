@@ -167,7 +167,7 @@ export default defineComponent({
     }
   },
   computed:{
-    ...mapState('client', ['id', 'isAdmin', 'profilePic'])
+    ...mapState('client', ['id', 'isAdmin', 'profilePic', 'token'])
   },
   methods: {
     niceDate: function(value) {
@@ -189,7 +189,7 @@ export default defineComponent({
     },
     async deletePost() {
       try {
-        const response = await Posts.deletePost(this.post.post.id)
+        const response = await Posts.deletePost(this.post.post.id, this.token)
         console.log(response.data.message)
         this.$router.push({
           name: 'feed'
@@ -203,7 +203,7 @@ export default defineComponent({
       try {
         const response = await Comments.deleteComment({
           id: this.selectedCommentId
-        })
+        }, this.token)
         console.log(response.data.message)
         this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
         if (!this.post.comments.length) {
@@ -220,7 +220,7 @@ export default defineComponent({
           userId: this.id,
           postId: this.post.post.id,
           comment: this.answer
-        })
+        }, this.token)
         console.log(response.data.message)
         this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
         if (this.post.comments.length) {

@@ -52,7 +52,7 @@ export default defineComponent({
     }
   },
   computed:{
-    ...mapState('client', ['profilePic', 'name', 'id'])
+    ...mapState('client', ['profilePic', 'name', 'id', 'token'])
   },
   methods: {
     ...mapActions('client', ['setToken', 'setName', 'setId', 'setProfilePic', 'setPrivileges']),
@@ -60,7 +60,7 @@ export default defineComponent({
       try {
         const response = await Auth.deleteUser({
           id: this.id
-        })
+        }, this.token)
         console.log(response.data.message)
         sessionStorage.clear()
         this.setName(null)

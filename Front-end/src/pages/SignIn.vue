@@ -91,7 +91,7 @@ export default defineComponent({
         password: '',
         image: ''
       },
-      imageUpload: [],
+      imageUpload: '',
       isPwd: true,
       error: null
     }
