@@ -20,20 +20,24 @@ const routes = [
     children: [
       { path: 'feed',
         name: 'feed',
-        component: () => import('src/pages/Feed.vue')
+        component: () => import('src/pages/Feed.vue'),
+        meta: { requireAuth: true }
       },
       { path: 'profile',
         name: 'profile',
-        component: () => import('src/pages/Profile.vue')
+        component: () => import('src/pages/Profile.vue'),
+        meta: { requireAuth: true }
       },
       { path: 'post',
         name: 'post',
-        component: () => import('src/pages/NewPost.vue')
+        component: () => import('src/pages/NewPost.vue'),
+        meta: { requireAuth: true }
       },
       {
         path: 'post/:id',
         name: 'singlePost',
-        component: () => import('src/pages/SinglePost.vue')
+        component: () => import('src/pages/SinglePost.vue'),
+        meta: { requireAuth: true }
       }
     ]
   },
