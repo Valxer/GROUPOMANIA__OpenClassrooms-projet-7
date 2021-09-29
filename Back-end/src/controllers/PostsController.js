@@ -2,6 +2,7 @@ const {Post, sequelize} = require('../models') //models
 const {User} = require('../models') //models
 const {Comment} = require('../models')
 const fs = require ('fs')
+const path = require('path')
 
 module.exports  = {
     async getFeed (req, res) {
@@ -114,16 +115,47 @@ module.exports  = {
         }
     },
 
+    // async deletePost (req, res) {
+    //     try {
+    //         await Post.destroy({   //suppresses the given post             
+    //             where: {
+    //                 id: req.params.id
+    //             }
+    //         })
+    //         res.status(200).send({
+    //             message: 'Post successfully deleted'
+    //         })
+    //     } catch {
+    //         res.status(500).send({
+    //             error: 'An error occured trying to delete the post'
+    //         })
+    //     }
+    // }
     async deletePost (req, res) {
         try {
-            await Post.destroy({   //suppresses the given post             
+            const post = await Post.findOne({   //suppresses the given post             
                 where: {
                     id: req.params.id
                 }
             })
-            res.status(200).send({
-                message: 'Post successfully deleted'
-            })
+            if(!post) {
+                res.status(404).send({
+                    error: 'Couldn\'t find the post you want to delete...'
+                })
+            } else {
+                const filename = post.image.split('/images/')[1]
+                const pathFile = path.join(__dirname, `../images/${filename}`)
+                fs.unlink(pathFile, async () => {
+                    await Post.destroy({
+                        where: {
+                            id: req.params.id
+                        }
+                    })
+                    res.status(200).send({
+                        message: 'Post successfully deleted'
+                    })
+                })
+            }
         } catch {
             res.status(500).send({
                 error: 'An error occured trying to delete the post'
