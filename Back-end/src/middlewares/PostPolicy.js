@@ -1,4 +1,13 @@
 const Joi = require ('joi')
+const path = require('path')
+const fs = require ('fs')
+
+function deleteImage(filename){
+    const pathFile = path.join(__dirname, `../images/${filename}`)
+    fs.unlink(pathFile, () => {
+        return
+    })
+}
 
 module.exports = {
     createPost (req, res, next) {
@@ -12,21 +21,25 @@ module.exports = {
         if (error) {
             switch (error.details[0].context.key) { //finds the reason of the error
                 case 'userId':                //if the userId is at fault
+                    deleteImage(req.file.filename)    
                     res.status(400).send({
                         error: `The user Id is incorrect`
                     })
                     break
                 case 'title':                  //if the title is at fault
+                    deleteImage(req.file.filename)    
                     res.status(400).send({
                         error: `The title must have between 2 and 140 characters`
                     })
                     break
                 case 'date':                   //if the date is at fault
+                    deleteImage(req.file.filename)    
                     res.status(400).send({
                         error: 'An error occurred trying to get the date of your post'
                     })
                     break
                 default:                        //if somehow there was a problem
+                    deleteImage(req.file.filename)    
                     res.status(400).send({
                         error: 'Invalid post informations'
                     })
@@ -46,11 +59,13 @@ module.exports = {
         if (error) {
             switch (error.details[0].context.key) { //finds the reason of the error
                 case 'title':                  //if the title is at fault
+                    deleteImage(req.file.filename)    
                     res.status(400).send({
                         error: `The title must have between 2 and 140 characters`
                     })
                     break
                 default:                        //if somehow there was a problem
+                    deleteImage(req.file.filename)    
                     res.status(400).send({
                         error: 'Invalid post informations'
                     })
