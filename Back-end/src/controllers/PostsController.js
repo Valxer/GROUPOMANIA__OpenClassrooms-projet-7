@@ -31,7 +31,7 @@ module.exports  = {
                 })
             } else {
                 var postObject = {}
-                postObject = {
+                var postObject = {
                     ...req.body,
                     image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                 }
@@ -90,14 +90,67 @@ module.exports  = {
         }
     },
 
+    // async editPost (req, res) {
+    //     try {
+    //         const post = await Post.update(req.body, {
+    //             where: {
+    //                 id: req.params.id
+    //             }
+    //         })
+    //         if (!post) {
+    //             return res.status(404).send({
+    //                 error: 'Couldn\'t update the Post'
+    //             })
+    //         }
+    //         const updated = await Post.findOne({
+    //             where: {
+    //                 id: req.params.id
+    //             }
+    //         })
+    //         res.status(200).send(updated)
+    //     } catch {
+    //         res.status(500).send({
+    //             error: 'An error occured trying to update the Post'
+    //         })
+    //     }
+    // },
     async editPost (req, res) {
+        const postObject = req.file ? {
+            ...req.body,
+            image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } : { ...req.body }
+
+        if(req.file) {
+            try {
+                const post = await Post.findOne({   //suppresses the given post             
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                if(!post) {
+                    res.status(404).send({
+                        error: 'Couldn\'t find the post you want to edit...'
+                    })
+                } else {
+                    const filename = post.image.split('/images/')[1]
+                    const pathFile = path.join(__dirname, `../images/${filename}`)
+                    fs.unlink(pathFile, () => {
+                        console.log('Old image successfully unlinked')
+                    })
+                }
+            } catch {
+                res.status(500).send({
+                    error: 'An error occured trying to unlink the old image'
+                })
+            }
+        }
         try {
-            const post = await Post.update(req.body, {
+            const newPost = await Post.update(postObject, {
                 where: {
                     id: req.params.id
                 }
             })
-            if (!post) {
+            if (!newPost) {
                 return res.status(404).send({
                     error: 'Couldn\'t update the Post'
                 })
@@ -115,22 +168,6 @@ module.exports  = {
         }
     },
 
-    // async deletePost (req, res) {
-    //     try {
-    //         await Post.destroy({   //suppresses the given post             
-    //             where: {
-    //                 id: req.params.id
-    //             }
-    //         })
-    //         res.status(200).send({
-    //             message: 'Post successfully deleted'
-    //         })
-    //     } catch {
-    //         res.status(500).send({
-    //             error: 'An error occured trying to delete the post'
-    //         })
-    //     }
-    // }
     async deletePost (req, res) {
         try {
             const post = await Post.findOne({   //suppresses the given post             

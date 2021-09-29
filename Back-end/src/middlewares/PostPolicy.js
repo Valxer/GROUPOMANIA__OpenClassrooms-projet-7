@@ -35,5 +35,28 @@ module.exports = {
             next()
         }
         
+    },
+
+    editPost (req, res, next) {
+        const schema = Joi.object({     // sets the verification criteria for the creation of a new post
+            title: Joi.string().min(2).max(140)
+        })
+
+        const {error} = schema.validate(req.body)   //returns an error if the validation fails
+        if (error) {
+            switch (error.details[0].context.key) { //finds the reason of the error
+                case 'title':                  //if the title is at fault
+                    res.status(400).send({
+                        error: `The title must have between 2 and 140 characters`
+                    })
+                    break
+                default:                        //if somehow there was a problem
+                    res.status(400).send({
+                        error: 'Invalid post informations'
+                    })
+            }
+        } else {        //if the validation of the information was a success
+            next()
+        }
     }
 }
