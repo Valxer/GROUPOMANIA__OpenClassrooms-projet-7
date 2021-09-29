@@ -83,7 +83,7 @@ module.exports  = {
                     error: 'The post you are looking for doesn\'t exist'
                 })
             }
-            const comments = await Comment.sequelize.query('SELECT Users.name, Users.id AS userId, Users.profilePic, Comments.id, Comments.content, Comments.date FROM Comments LEFT JOIN Users ON Comments.ownerId = Users.id WHERE Comments.PostId = :id ORDER BY Comments.date DESC LIMIT 0,30',
+            const comments = await Comment.sequelize.query('SELECT Users.name, Users.id AS userId, Users.profilePic, Comments.id, Comments.content, Comments.date FROM Comments LEFT JOIN Users ON Comments.ownerId = Users.id WHERE Comments.PostId = :id ORDER BY Comments.createdAt DESC LIMIT 0,30',
                 {
                     replacements: {
                         id : req.params.id

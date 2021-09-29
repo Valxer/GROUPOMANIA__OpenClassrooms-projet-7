@@ -14,7 +14,7 @@ module.exports = {
         const schema = Joi.object({     // sets the verification criteria for the creation of a new post
             userId: Joi.number().required(),
             title: Joi.string().min(2).max(140).required(),
-            date: Joi.date().timestamp().default(Date.now())
+            date: Joi.date().timestamp()
         })
 
         const {error} = schema.validate(req.body)   //returns an error if the validation fails
