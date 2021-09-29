@@ -1,10 +1,19 @@
 const Joi = require ('joi')
+const path = require('path')
+const fs = require ('fs')
+
+function deleteImage(filename){
+    const pathFile = path.join(__dirname, `../images/${filename}`)
+    fs.unlink(pathFile, () => {
+        return
+    })
+}
 
 module.exports = {
     signin (req, res, next) {
         const schema = Joi.object({         // sets the verification criteria for the creation of a new user
             userName: Joi.string().regex(       //using a regex
-                new RegExp('^[a-zA-Z0-9]{2,15}$')
+                new RegExp('^[a-zA-Z0-9]{2,20}$')
             ).required(),
             email: Joi.string().email().required(),    //using the email format given by joi
             password: Joi.string().regex(
@@ -17,22 +26,25 @@ module.exports = {
         const {error} = schema.validate(req.body)   //returns an error if the validation fails
         if (error) {
             switch (error.details[0].context.key) { //finds the reason of the error
-                case 'userName':                        //if the name is at fault
+                case 'userName':
+                    deleteImage(req.file.filename)                        //if the name is at fault
                     res.status(400).send({
                         error: `The name provided failed to match the following rules:
                         <br>
                         1. It must contain ONLY the following characters: lower case, upper case, numerics
                         <br>
-                        2. It must have between 2 and 15 characters
+                        2. It must have between 2 and 20 characters
                         `
                     })
                     break
                 case 'email':                   //if the email is at fault
+                    deleteImage(req.file.filename) 
                     res.status(400).send({
                         error: 'The provided email address is invalid'
                     })
                     break
                 case 'password':                //if the password is at fault
+                    deleteImage(req.file.filename) 
                     res.status(400).send({
                         error: `The password provided failed to match the following rules:
                         <br>
@@ -47,11 +59,13 @@ module.exports = {
                     })
                     break
                 case 'role':                        //if the profilePic is at fault
+                    deleteImage(req.file.filename) 
                     res.status(400).send({
                         error: `role non attribué`
                     })
                     break
                 default:                        //if somehow there was a problem
+                    deleteImage(req.file.filename) 
                     res.status(400).send({
                         error: 'Invalid registration information'
                     })

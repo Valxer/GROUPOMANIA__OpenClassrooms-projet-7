@@ -6,7 +6,7 @@
         @keyup.enter="signin"
         @click="resetpseudo"
         class=" q-mb-xl textInput"
-        v-model="user.name"
+        v-model="user.userName"
         label="Pseudo"
         label-color="primary"
         color="primary"
@@ -21,7 +21,7 @@
         bg-color="secondary"
         label-color="primary"
         style="width: 200px"
-        @input="captureImage"
+        @change="fileHandler"
       >
         <template v-slot:prepend>
           <q-icon name="eva-attach-outline" />
@@ -86,10 +86,10 @@ export default defineComponent({
   data() {
     return {
       user: {
-        name: '',
-        profilePic: null,
+        userName: '',
         email: '',
-        password: '' 
+        password: '',
+        image: ''
       },
       imageUpload: [],
       isPwd: true,
@@ -97,8 +97,9 @@ export default defineComponent({
     }
   },
   methods: {
-    captureImage(file) {
-      this.user.profilePic = file
+    fileHandler() {
+      this.user.image = this.imageUpload
+      console.log('imageUpload :', this.imageUpload, 'image', this.user.image)
     },
     resetpseudo() {
       this.$refs.pseudo.resetValidation()
@@ -111,18 +112,24 @@ export default defineComponent({
     },
     ...mapActions('client', ['setName']),
     async signin() {
+      let formData = new FormData()
+      for ( var key in this.user ) {
+        formData.append(key, this.user[key]);
+      }
+      console.log('formData :', formData)
+      var object = {};
+      formData.forEach(function(value, key){
+      object[key] = value;
+      })
+      console.log("object :" , object)
       try {
-        await Auth.signin({
-          name: this.user.name,
-          //profilePic: this.user.profilePic,
-          email: this.user.email,
-          password: this.user.password
-        })
-        console.log('User registered')
+        await Auth.signin(formData)
+        console.log('User registered !')
         this.$router.push({
           name: 'login'
         })
       } catch (error) {
+        console.log('error :', error)
         this.error = error.response.data.error
       }
     }
