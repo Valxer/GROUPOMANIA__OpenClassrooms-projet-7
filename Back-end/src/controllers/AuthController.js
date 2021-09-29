@@ -1,4 +1,4 @@
-const {User} = require('../models') //models
+const {User, Post} = require('../models') //models
 const jwt = require('jsonwebtoken') // used to create tokens
 const config = require('../config/config')  //config file
 const bcrypt = require('bcrypt')    //used to hash passwords
@@ -7,6 +7,7 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path')
 const cryptojs = require('crypto-js');                
+const PostPolicy = require('../middlewares/PostPolicy');
 const key = cryptojs.enc.Hex.parse(process.env.KEY);
 const iv = cryptojs.enc.Hex.parse(process.env.IV);    //using a key and an iv we can make sure we get the same output for the same input (crypting not hashing)
 
@@ -102,10 +103,32 @@ module.exports  = {
                     error: 'Couldn\'t find the user you want to delete...'
                 })
             } else {
+                console.log('just before')
+
+                //deleting images from the user posts the posts themselves will delete on cascade
+                const posts = await Post.findAll({
+                    where: {
+                        ownerId: req.params.id
+                    }
+                })
+                if (!posts) {
+                    return
+                }
+                Object.entries(posts).forEach(entry => {
+                    const post = entry[1]
+                    const filename = post.image.split('/images/')[1]
+                    const pathFile = path.join(__dirname, `../images/${filename}`)
+                    fs.unlink(pathFile, async () => {
+                        return
+                    })
+    
+                })
+
+                //deleting profilePic from repository
                 const filename = user.profilePic.split('/images/')[1]
                 const pathFile = path.join(__dirname, `../images/${filename}`)
                 fs.unlink(pathFile, async () => {
-                    await User.destroy({
+                    await User.destroy({    //delmting users, posts and comments on cascade
                         where: {
                             id: req.params.id
                         }

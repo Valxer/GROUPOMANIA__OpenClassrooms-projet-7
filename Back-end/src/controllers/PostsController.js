@@ -12,6 +12,7 @@ module.exports  = {
             )
             //Updating the commentCount in case of a user deletion that also deleted some comments
              Object.entries(posts).forEach(async entry => {
+                 console.log('\n\nentry :', entry[1])
                 const[key, value] = entry
                 commentCount = await Comment.count({
                     where: {
