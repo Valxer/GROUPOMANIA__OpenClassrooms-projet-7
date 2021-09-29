@@ -19,7 +19,14 @@ module.exports  = {
         try {
             req.body.email = cryptojs.AES.encrypt(req.body.email, key, { iv: iv }).toString()
             req.body.password = await bcrypt.hash(req.body.password, 10)   //hashes the password
-            const user = await User.create(req.body)    //creates a new user
+            var userObject = {
+                ...req.body,
+                name: req.body.userName,
+                profilePic: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            }
+            delete userObject.userName
+            console.log(userObject)
+            const user = await User.create(userObject)    //creates a new user
             res.status(201).send(user.toJSON())
         } catch (err) {                                 // email already exists
             res.status(400).send({

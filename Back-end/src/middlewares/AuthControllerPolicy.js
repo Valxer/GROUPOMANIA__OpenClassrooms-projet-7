@@ -3,10 +3,9 @@ const Joi = require ('joi')
 module.exports = {
     signin (req, res, next) {
         const schema = Joi.object({         // sets the verification criteria for the creation of a new user
-            name: Joi.string().regex(       //using a regex
+            userName: Joi.string().regex(       //using a regex
                 new RegExp('^[a-zA-Z0-9]{2,15}$')
             ).required(),
-            profilePic: Joi.string().default('https://i.imgur.com/tdi3NGa.png'),
             email: Joi.string().email().required(),    //using the email format given by joi
             password: Joi.string().regex(
                 new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,32}$')
@@ -14,10 +13,11 @@ module.exports = {
             role: Joi.string().alphanum().valid('admin', 'user').default('user')
         })
 
+        console.log('\n\nbody :', req.body)
         const {error} = schema.validate(req.body)   //returns an error if the validation fails
         if (error) {
             switch (error.details[0].context.key) { //finds the reason of the error
-                case 'name':                        //if the name is at fault
+                case 'userName':                        //if the name is at fault
                     res.status(400).send({
                         error: `The name provided failed to match the following rules:
                         <br>
@@ -25,11 +25,6 @@ module.exports = {
                         <br>
                         2. It must have between 2 and 15 characters
                         `
-                    })
-                    break
-                case 'profilePic':                        //if the profilePic is at fault
-                    res.status(400).send({
-                        error: `You need to have a profile picture`
                     })
                     break
                 case 'email':                   //if the email is at fault

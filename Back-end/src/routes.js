@@ -9,7 +9,7 @@ const multer = require('./middlewares/multer-config')
 
 module.exports = (app) => {
     //User requests
-    app.post('/signin',AuthControllerPolicy.signin, AuthController.signin)
+    app.post('/signin', multer, AuthControllerPolicy.signin, AuthController.signin)
     app.post('/login', AuthController.login)
     app.get('/profile', AuthController.getUser)
     app.delete('/profile/:id', AuthController.deleteUser)
