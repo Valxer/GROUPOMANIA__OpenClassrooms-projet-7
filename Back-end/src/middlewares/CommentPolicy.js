@@ -3,7 +3,7 @@ const Joi = require ('joi')
 module.exports = {
     createComment (req, res, next) {
         const schema = Joi.object({         // sets the verification criteria for the creation of a new post
-            content: Joi.string().min(2).max(280).required(),
+            content: Joi.string().min(1).max(280).required(),
             date: Joi.date().timestamp()
         })
 
@@ -12,7 +12,7 @@ module.exports = {
             switch (error.details[0].context.key) { //finds the reason of the error
                 case 'content':                        //if the name is at fault
                     res.status(400).send({
-                        error: `The comment must have between 2 and 280 characters`
+                        error: `The comment must have between 1 and 280 characters`
                     })
                     break
                 case 'date':                   //if the email is at fault
