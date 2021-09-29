@@ -88,14 +88,12 @@ module.exports  = {
                     error: 'Couldn\'t find the post which the comment is linked to'
                 })
             }
-            console.log('post found', post)
             await Comment.destroy({   //tries to find a user with the given email               
                 where: {
                     id: req.params.id
                 }
             })
             post.commentCount--
-            console.log('post modified', post)
             await post.save()
             res.status(200).send({
                 message: 'Comment successfully deleted'
