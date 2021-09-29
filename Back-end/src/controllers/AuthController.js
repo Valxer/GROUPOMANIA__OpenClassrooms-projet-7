@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt')    //used to hash passwords
 
 require('dotenv').config();
 const cryptojs = require('crypto-js');                
+const fs = require('fs');
+const path = require('path')
 const key = cryptojs.enc.Hex.parse(process.env.KEY);
 const iv = cryptojs.enc.Hex.parse(process.env.IV);    //using a key and an iv we can make sure we get the same output for the same input (crypting not hashing)
 
@@ -89,15 +91,30 @@ module.exports  = {
     },
 
     async deleteUser (req, res) {
-        try { 
-            await User.destroy({
+        try {
+            const user = await User.findOne({
                 where: {
                     id: req.params.id
                 }
             })
-            res.status(200).send({
-                message: 'Profile successfully deleted'
-            })
+            if (!user) {
+                res.status(404).send({
+                    error: 'Couldn\'t find the user you want to delete...'
+                })
+            } else {
+                const filename = user.profilePic.split('/images/')[1]
+                const pathFile = path.join(__dirname, `../images/${filename}`)
+                fs.unlink(pathFile, async () => {
+                    await User.destroy({
+                        where: {
+                            id: req.params.id
+                        }
+                    })
+                    res.status(200).send({
+                        message: 'Profile successfully deleted'
+                    })
+                })
+            }
         } catch {
             res.status(500).send ({
                 error: 'An error has occured while trying to delete your profile'
