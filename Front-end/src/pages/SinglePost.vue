@@ -137,6 +137,7 @@ export default defineComponent({
       isFetched: false,
       hasComments: false,
       answer: {
+        date: Date.now(),
         content: ''
       },
       suppress: ref(false),
@@ -167,8 +168,11 @@ export default defineComponent({
         const response = await Comments.deleteComment({
           id: this.selectedCommentId
         })
-        window.location.reload();
         console.log(response.data.message)
+        this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
+        if (!this.post.comments.length) {
+          this.hasComments = false
+        }
       } catch (error) {
         console.log('error :', error)
         this.error = error.response.data.error
@@ -182,7 +186,11 @@ export default defineComponent({
           comment: this.answer
         })
         console.log(response.data.message)
-        window.location.reload();
+        this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
+        if (this.post.comments.length) {
+          this.hasComments = true
+        }
+        this.answer.content =''
       } catch (error) {
         console.log('error :', error)
         this.error = error.response.data.error
