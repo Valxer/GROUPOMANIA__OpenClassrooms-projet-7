@@ -76,7 +76,7 @@
           <q-item>
             <q-item-section avatar>
               <q-avatar>
-                <img class="profilePic" :src="post.post.profilePic">
+                <img class="profilePic" :src="profilePic">
               </q-avatar>
             </q-item-section>
             <q-item-section class="answer-header">
@@ -144,7 +144,7 @@ export default defineComponent({
     }
   },
   computed:{
-    ...mapState('client', ['id', 'isAdmin'])
+    ...mapState('client', ['id', 'isAdmin', 'profilePic'])
   },
   methods: {
     niceDate: function(value) {

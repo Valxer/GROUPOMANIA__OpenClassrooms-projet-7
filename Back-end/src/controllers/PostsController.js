@@ -10,6 +10,23 @@ module.exports  = {
             const posts = await Post.sequelize.query('SELECT Posts.id, Posts.title, Posts.date, Posts.image, Posts.commentCount, Users.name, Users.profilePic FROM Posts LEFT JOIN Users ON Posts.ownerId = Users.id ORDER BY Posts.createdAt DESC LIMIT 0,30',
                 {type: sequelize.QueryTypes.SELECT}
             )
+            //Updating the commentCount in case of a user deletion that also deleted some comments
+             Object.entries(posts).forEach(async entry => {
+                const[key, value] = entry
+                commentCount = await Comment.count({
+                    where: {
+                        postId: value.id
+                    }
+                })
+                if (value.commentCount != commentCount) {
+                    value.commentCount = commentCount
+                    await Post.update(value, {
+                        where: {
+                            id: value.id
+                        }
+                    })
+                }
+            })
             res.send(posts)
         } catch {
             res.status(500).send({
@@ -89,7 +106,7 @@ module.exports  = {
             })
         }
     },
-    
+
     async editPost (req, res) {
         const postObject = req.file ? {
             ...req.body,
