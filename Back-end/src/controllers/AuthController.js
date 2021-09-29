@@ -4,9 +4,9 @@ const config = require('../config/config')  //config file
 const bcrypt = require('bcrypt')    //used to hash passwords
 
 require('dotenv').config();
-const cryptojs = require('crypto-js');                
 const fs = require('fs');
 const path = require('path')
+const cryptojs = require('crypto-js');                
 const key = cryptojs.enc.Hex.parse(process.env.KEY);
 const iv = cryptojs.enc.Hex.parse(process.env.IV);    //using a key and an iv we can make sure we get the same output for the same input (crypting not hashing)
 
