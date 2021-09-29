@@ -60,21 +60,27 @@ export default defineComponent({
   },
   methods: {
     fileHandler() {
-      this.post.file = this.imageUpload
+      this.post.image = this.imageUpload
       console.log('imageUpload :', this.imageUpload, 'image', this.post.image)
     },
-    submitPost() {
+    async submitPost() {
       this.post.userId = this.id
       let formData = new FormData()
       for ( var key in this.post ) {
         formData.append(key, this.post[key]);
       }
-      console.log('formData :', formData)
-      var object = {};
-      formData.forEach(function(value, key){
-      object[key] = value;
-      })
-      console.log("object :" , object)
+      try{
+        const response = await Posts.createPost(formData)
+      } catch (error) {
+        console.log('error :', error)
+        this.error = error.response.data.error
+      }
+      // console.log('formData :', formData)
+      // var object = {};
+      // formData.forEach(function(value, key){
+      // object[key] = value;
+      // })
+      // console.log("object :" , object)
     }
   }
 })
