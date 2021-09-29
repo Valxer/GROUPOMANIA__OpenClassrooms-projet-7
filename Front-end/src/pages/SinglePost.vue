@@ -16,6 +16,27 @@
             <q-item-label>{{post.post.name}}</q-item-label>
             <q-item-label caption>{{niceDate(post.post.date)}}</q-item-label>
           </q-item-section>
+          <q-btn
+              v-if="id == post.post.ownerId"
+              class="del-btn"
+              @click="popUpPost()"
+              text-color="info"
+              flat
+              icon-right="eva-close-outline"
+              />
+          <q-dialog v-model="popUp" persistent>
+            <q-card>
+              <q-card-section class="column items-center">
+                <q-avatar icon="eva-trash-2-outline" color="primary" text-color="accent" />
+                <span class="q-mt-md q-ml-sm">Êtes-vous sûr de vouloir supprimer ce post ?</span>
+              </q-card-section>
+
+              <q-card-actions align="right">
+                <q-btn flat label="Annuler" color="primary" v-close-popup />
+                <q-btn flat label="Confirmer" color="primary" @click="deletePost" v-close-popup/>
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
         </q-item>
         <img class="mainPic" :src="post.post.image">
         <q-card-section class="card-footer q-mb-sm">
@@ -140,6 +161,7 @@ export default defineComponent({
         date: Date.now(),
         content: ''
       },
+      popUp: ref(false),
       suppress: ref(false),
       selectedCommentId: null
     }
@@ -153,15 +175,29 @@ export default defineComponent({
         months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
       });
     },
+    popUpPost(){
+      this.popUp = true
+    },
     selectComment(id) {
       this.selectedCommentId = id
       this.suppress = true
-      console.log(this.selectedCommentId)
     },
     handleEnter (e) {
     	if (e.ctrlKey) return console.log('New line', e)
       
     	console.log('Send', e)
+    },
+    async deletePost() {
+      try {
+        const response = await Posts.deletePost(this.post.post.id)
+        console.log(response.data.message)
+        this.$router.push({
+          name: 'feed'
+        })
+      } catch (error) {
+        console.log('error :', error)
+        this.error = error.response.data.error
+      }
     },
     async deleteComment() {
       try {

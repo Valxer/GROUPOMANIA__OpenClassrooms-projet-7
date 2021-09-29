@@ -15,7 +15,8 @@ export default {
         const path = 'post/edit/' + id
         return api.put(path)
     },
-    deletePost() {
-        return api.delete('post/:id')
+    deletePost(id) {
+        const path = 'post/' + id
+        return api.delete(path)
     }
 }
