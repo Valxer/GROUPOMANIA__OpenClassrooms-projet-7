@@ -5,7 +5,7 @@ const {Comment} = require('../models')
 module.exports  = {
     async getFeed (req, res) {
         try {
-            const posts = await Post.sequelize.query('SELECT Posts.id, Posts.title, Posts.date, Posts.image, Posts.commentCount, Users.name, Users.profilePic FROM Posts LEFT JOIN Users ON Posts.ownerId = Users.id ORDER BY Posts.date DESC LIMIT 0,30',
+            const posts = await Post.sequelize.query('SELECT Posts.id, Posts.title, Posts.date, Posts.image, Posts.commentCount, Users.name, Users.profilePic FROM Posts LEFT JOIN Users ON Posts.ownerId = Users.id ORDER BY Posts.createdAt DESC LIMIT 0,30',
                 {type: sequelize.QueryTypes.SELECT}
             )
             res.send(posts)
@@ -16,35 +16,9 @@ module.exports  = {
         }
     },
 
-    // async createPost (req, res) {
-    //     const postObject = JSON.parse(req.body.post)
-    //     console.log('body.post :', postObject)
-    //     try {
-    //         const owner = await User.findOne({   //tries to find a user with the given email               
-    //             where: {
-    //                 id: postObject.userId
-    //             }
-    //         })
-    //         if(!owner) {
-    //             res.status(404).send({
-    //                 error: 'Could not find the user trying to create this post'
-    //             })
-    //         } else {
-    //             const post = await owner.createPost({
-    //                 ...postObject.post,
-    //                 image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    //             })
-    //             res.send(post)
-    //         }
-    //     } catch {
-    //         res.status(500).send({
-    //             error: 'An error occured while creating the post'
-    //         })
-    //     }
-    // },
     async createPost (req, res) {
-        try {
-            const owner = await User.findOne({   //tries to find a user with the given email               
+        try{
+            const owner = await User.findOne({
                 where: {
                     id: req.body.userId
                 }
@@ -54,13 +28,23 @@ module.exports  = {
                     error: 'Could not find the user trying to create this post'
                 })
             } else {
-                const post = await owner.createPost(req.body.post)
-                res.send(post)
+                var postObject = {}
+                postObject = {
+                    ...req.body,
+                    image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                }
+                delete postObject.userId
+                console.log(postObject)
+                const post = await owner.createPost(postObject)
+                if(!post) {
+                    res.status(500).send({
+                        error: 'An error occurred while attributting values to the post'
+                    })
+                }
+                res.status(201).send(post)
             }
-        } catch {
-            res.status(500).send({
-                error: 'An error occured while creating the post'
-            })
+        } catch (err) {
+            res.status(500).send(err)
         }
     },
 

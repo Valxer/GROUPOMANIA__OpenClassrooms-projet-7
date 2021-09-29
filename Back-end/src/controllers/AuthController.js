@@ -20,7 +20,7 @@ module.exports  = {
             req.body.email = cryptojs.AES.encrypt(req.body.email, key, { iv: iv }).toString()
             req.body.password = await bcrypt.hash(req.body.password, 10)   //hashes the password
             const user = await User.create(req.body)    //creates a new user
-            res.send(user.toJSON())
+            res.status(201).send(user.toJSON())
         } catch (err) {                                 // email already exists
             res.status(400).send({
                 error: 'This email is already registered'

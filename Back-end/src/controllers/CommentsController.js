@@ -56,7 +56,7 @@ module.exports  = {
                     post.addComment(comment)
                     post.commentCount++
                     await post.save()
-                    res.send(comment)
+                    res.status(201).send(comment)
                 }
             }
         } catch {

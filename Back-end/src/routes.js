@@ -6,6 +6,10 @@ const AuthControllerPolicy = require('./middlewares/AuthControllerPolicy')
 const Postpolicy = require('./middlewares/PostPolicy')
 const Commentpolicy = require('./middlewares/CommentPolicy')
 const multer = require('./middlewares/multer-config')
+const { getUser } = require('./controllers/AuthController')
+
+const {Post, sequelize} = require('./models') //models
+const {User} = require('./models') //models
 
 module.exports = (app) => {
     //User requests
@@ -15,7 +19,7 @@ module.exports = (app) => {
     app.delete('/profile/:id', AuthController.deleteUser)
     //Post requests
     app.get('/feed', PostsController.getFeed)
-    app.post('/post', Postpolicy.createPost, PostsController.createPost)
+    app.post('/post', multer, Postpolicy.createPost, PostsController.createPost)
     app.get('/post/:id', PostsController.getPost)
     app.put('/post/edit/:id', PostsController.editPost)
     app.delete('/post/:id', PostsController.deletePost)
@@ -23,8 +27,4 @@ module.exports = (app) => {
     app.get('/post/:id/comments', CommentsController.getComments)
     app.post('/post/:id', Commentpolicy.createComment, CommentsController.createComment)
     app.delete('/comment/:id', CommentsController.deleteComment)
-
-    app.post('/single', multer, (req, res) => {
-        res.send('Single File upload success')
-    })
 }
