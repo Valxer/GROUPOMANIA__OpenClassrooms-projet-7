@@ -6,10 +6,6 @@ const AuthControllerPolicy = require('./middlewares/AuthControllerPolicy')
 const Postpolicy = require('./middlewares/PostPolicy')
 const Commentpolicy = require('./middlewares/CommentPolicy')
 const multer = require('./middlewares/multer-config')
-const { getUser } = require('./controllers/AuthController')
-
-const {Post, sequelize} = require('./models') //models
-const {User} = require('./models') //models
 
 module.exports = (app) => {
     //User requests
