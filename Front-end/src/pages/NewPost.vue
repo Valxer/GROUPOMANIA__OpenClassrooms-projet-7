@@ -50,7 +50,7 @@ export default defineComponent({
         userId: null,
         title: '',
         date: Date.now(),
-        file: ''
+        image: ''
       },
       imageUpload: []
     }
@@ -61,21 +61,20 @@ export default defineComponent({
   methods: {
     fileHandler() {
       this.post.file = this.imageUpload
-      console.log('imageUpload :', this.imageUpload, 'file', this.post.file)
+      console.log('imageUpload :', this.imageUpload, 'image', this.post.image)
     },
     submitPost() {
-      console.log(this.id)
       this.post.userId = this.id
       let formData = new FormData()
       for ( var key in this.post ) {
         formData.append(key, this.post[key]);
       }
-      // console.log('formData :', formData)
-      // var object = {};
-      // formData.forEach(function(value, key){
-      // object[key] = value;
-      // })
-      // console.log("object :" , object)
+      console.log('formData :', formData)
+      var object = {};
+      formData.forEach(function(value, key){
+      object[key] = value;
+      })
+      console.log("object :" , object)
     }
   }
 })

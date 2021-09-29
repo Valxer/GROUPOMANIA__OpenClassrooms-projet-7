@@ -5,7 +5,7 @@ const CommentsController = require('./controllers/CommentsController')
 const AuthControllerPolicy = require('./middlewares/AuthControllerPolicy')
 const Postpolicy = require('./middlewares/PostPolicy')
 const Commentpolicy = require('./middlewares/CommentPolicy')
-// const multer = require('./middlewares')
+const multer = require('./middlewares/multer-config')
 
 module.exports = (app) => {
     //User requests
@@ -23,4 +23,8 @@ module.exports = (app) => {
     app.get('/post/:id/comments', CommentsController.getComments)
     app.post('/post/:id', Commentpolicy.createComment, CommentsController.createComment)
     app.delete('/comment/:id', CommentsController.deleteComment)
+
+    app.post('/single', multer, (req, res) => {
+        res.send('Single File upload success')
+    })
 }

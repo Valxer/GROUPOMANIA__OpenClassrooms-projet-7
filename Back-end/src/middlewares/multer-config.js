@@ -1,4 +1,5 @@
 const multer = require('multer');
+const path = require ('path');
 
 // creates all MIME TYPES to define images formats
 const MIME_TYPES = {
@@ -11,10 +12,10 @@ const MIME_TYPES = {
 // configures where and under what name the image should be stored
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, 'images');
+    callback(null, path.join(__dirname, '../images'));
   },
-  filename: (req, file, callback) => {                        //generates a new name for the file if needed by removing whitespaces and replacing them by underscores
-    const name = file.originalname.split(' ').join('_');
+  filename: (req, file, callback) => {      //generates a new name for the file if needed by removing whitespaces and replacing them by underscores
+    const name = file.originalname.split(' ').join('_').split('.').join('_');
     const extension = MIME_TYPES[file.mimetype];
     callback(null, name + Date.now() + '.' + extension);
   }
