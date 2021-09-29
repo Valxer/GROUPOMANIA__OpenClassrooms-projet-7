@@ -21,7 +21,7 @@
         </q-item>
         <img class="mainPic" :src="post.image">
         <q-card-section class="card-footer">
-          <div class="text-subtitle1 text-weight-medium text-center">{{post.title}}</div>
+          <div class="text-h5 text-weight-medium text-center">{{post.title}}</div>
           <div>
             <q-icon color="primary" name="eva-message-square-outline" size="20px"/>
             {{post.commentCount}}
