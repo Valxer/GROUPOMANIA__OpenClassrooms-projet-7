@@ -71,16 +71,14 @@ export default defineComponent({
       }
       try{
         const response = await Posts.createPost(formData)
+        console.log(response)
+        this.$router.push({
+          name: 'feed'
+        })
       } catch (error) {
         console.log('error :', error)
         this.error = error.response.data.error
       }
-      // console.log('formData :', formData)
-      // var object = {};
-      // formData.forEach(function(value, key){
-      // object[key] = value;
-      // })
-      // console.log("object :" , object)
     }
   }
 })
