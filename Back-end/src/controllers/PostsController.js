@@ -1,6 +1,7 @@
 const {Post, sequelize} = require('../models') //models
 const {User} = require('../models') //models
 const {Comment} = require('../models')
+const fs = require ('fs')
 
 module.exports  = {
     async getFeed (req, res) {
