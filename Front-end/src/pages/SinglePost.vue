@@ -167,6 +167,7 @@ export default defineComponent({
         const response = await Comments.deleteComment({
           id: this.selectedCommentId
         })
+        window.location.reload();
         console.log(response.data.message)
       } catch (error) {
         console.log('error :', error)
@@ -181,6 +182,7 @@ export default defineComponent({
           comment: this.answer
         })
         console.log(response.data.message)
+        window.location.reload();
       } catch (error) {
         console.log('error :', error)
         this.error = error.response.data.error

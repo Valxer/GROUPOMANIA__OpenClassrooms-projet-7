@@ -62,6 +62,7 @@ export default defineComponent({
           id: this.id
         })
         console.log(response.data.message)
+        sessionStorage.clear()
         this.setName(null)
         this.setId(null)
         this.setProfilePic(null)

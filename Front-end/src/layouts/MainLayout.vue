@@ -59,6 +59,7 @@ export default defineComponent({
   methods: {
     ...mapActions('client', ['setName', 'setToken', 'setId', 'setProfilePic', 'setPrivileges']),
     logout() {
+      sessionStorage.clear()
       this.setName(null)
       this.setId(null)
       this.setProfilePic(null)

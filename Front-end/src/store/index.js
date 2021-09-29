@@ -1,5 +1,6 @@
 import { store } from 'quasar/wrappers'
 import { createStore } from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 import client from './client'
 
 export default store(function (/* { ssrContext } */) {
@@ -7,7 +8,7 @@ export default store(function (/* { ssrContext } */) {
     modules: {
       client
     },
-    strict: true
+    plugins:[createPersistedState()]
   })
   return Store
 })
