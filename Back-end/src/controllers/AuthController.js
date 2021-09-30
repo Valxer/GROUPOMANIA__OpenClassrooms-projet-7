@@ -27,7 +27,6 @@ module.exports  = {
                 profilePic: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
             }
             delete userObject.userName
-            // console.log(userObject)
             const user = await User.create(userObject)    //creates a new user
             res.status(201).send(user.toJSON())
         } catch (err) {                                 // email already exists
@@ -102,8 +101,6 @@ module.exports  = {
                     error: 'Couldn\'t find the user you want to delete...'
                 })
             } else {
-                // console.log('just before')
-
                 //deleting images from the user posts the posts themselves will delete on cascade
                 const posts = await Post.findAll({
                     where: {
