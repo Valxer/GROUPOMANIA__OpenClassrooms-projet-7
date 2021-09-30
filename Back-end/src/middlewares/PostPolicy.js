@@ -52,12 +52,19 @@ module.exports = {
 
     editPost (req, res, next) {
         const schema = Joi.object({     // sets the verification criteria for the creation of a new post
+            userId: Joi.number().required(),
             title: Joi.string().min(2).max(140)
         })
 
         const {error} = schema.validate(req.body)   //returns an error if the validation fails
         if (error) {
             switch (error.details[0].context.key) { //finds the reason of the error
+                case 'userId':                  //if the title is at fault
+                    deleteImage(req.file.filename)    
+                    res.status(400).send({
+                        error: `Not a valid userId`
+                    })
+                    break
                 case 'title':                  //if the title is at fault
                     deleteImage(req.file.filename)    
                     res.status(400).send({

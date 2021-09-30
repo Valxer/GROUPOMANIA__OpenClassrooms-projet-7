@@ -108,10 +108,13 @@ module.exports  = {
     },
 
     async editPost (req, res) {
+        // console.log('\neditController\n')
         const postObject = req.file ? {
             ...req.body,
             image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : { ...req.body }
+        delete postObject.userId
+        // console.log(postObject)
 
         if(req.file) {
             try {

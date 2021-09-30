@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');    // package for using authentification to
 const config = require('../config/config')  //config file
 
 module.exports = (req,res, next) => {
+    // console.log('\n tokenCheck')
     try {
         const cryptedToken = req.headers.authorization.split(' ')[1];           // reads the token from headers
         const decryptedToken = jwt.verify(cryptedToken, config.auth.jwtSecret);     // uses the key to decrypt the token
