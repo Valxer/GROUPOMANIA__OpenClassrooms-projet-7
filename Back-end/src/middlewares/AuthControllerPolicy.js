@@ -26,8 +26,10 @@ module.exports = {
         const {error} = schema.validate(req.body)   //returns an error if the validation fails
         if (error) {
             switch (error.details[0].context.key) { //finds the reason of the error
-                case 'userName':
-                    deleteImage(req.file.filename)                        //if the name is at fault
+                case 'userName':                        //if the name is at fault
+                    if (req.file) {
+                        deleteImage(req.file.filename) 
+                    }
                     res.status(400).send({
                         error: `The name provided failed to match the following rules:
                         <br>
@@ -38,13 +40,17 @@ module.exports = {
                     })
                     break
                 case 'email':                   //if the email is at fault
-                    deleteImage(req.file.filename) 
+                    if (req.file) {
+                        deleteImage(req.file.filename) 
+                    } 
                     res.status(400).send({
                         error: 'The provided email address is invalid'
                     })
                     break
                 case 'password':                //if the password is at fault
-                    deleteImage(req.file.filename) 
+                    if (req.file) {
+                        deleteImage(req.file.filename) 
+                    } 
                     res.status(400).send({
                         error: `The password provided failed to match the following rules:
                         <br>
@@ -58,8 +64,10 @@ module.exports = {
                         `
                     })
                     break
-                case 'role':                        //if the profilePic is at fault
-                    deleteImage(req.file.filename) 
+                case 'role':                        //if the profilePic is at 
+                    if (req.file) {
+                        deleteImage(req.file.filename) 
+                    }
                     res.status(400).send({
                         error: `role non attribué`
                     })

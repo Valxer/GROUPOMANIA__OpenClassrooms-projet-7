@@ -2,6 +2,7 @@ const Joi = require ('joi')
 
 module.exports = {
     createComment (req, res, next) {
+        console.log('\ncomment policy')
         const schema = Joi.object({         // sets the verification criteria for the creation of a new post
             content: Joi.string().min(1).max(280).required(),
             date: Joi.date().timestamp()

@@ -16,9 +16,9 @@ module.exports = (app) => {
     app.delete('/profile/:id',tokenChecker, AuthController.deleteUser)
     //Post requests
     app.get('/feed', PostsController.getFeed)
-    app.post('/post', tokenChecker, multer, Postpolicy.createPost, PostsController.createPost)
+    app.post('/post', multer, Postpolicy.createPost, tokenChecker, PostsController.createPost)
     app.get('/post/:id', PostsController.getPost)
-    app.put('/post/edit/:id', tokenChecker, multer, Postpolicy.editPost, PostsController.editPost)
+    app.put('/post/edit/:id', multer, Postpolicy.editPost, tokenChecker, PostsController.editPost)
     app.delete('/post/:id', tokenChecker, PostsController.deletePost)
     //Comment requests
     app.get('/post/:id/comments', CommentsController.getComments)

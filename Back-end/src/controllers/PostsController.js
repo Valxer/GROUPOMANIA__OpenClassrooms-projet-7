@@ -4,6 +4,13 @@ const {Comment} = require('../models')
 const fs = require ('fs')
 const path = require('path')
 
+function deleteImage(filename){
+    const pathFile = path.join(__dirname, `../images/${filename}`)
+    fs.unlink(pathFile, () => {
+        return
+    })
+}
+
 module.exports  = {
     async getFeed (req, res) {
         try {
@@ -53,7 +60,6 @@ module.exports  = {
                     image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
                 }
                 delete postObject.userId
-                console.log(postObject)
                 const post = await owner.createPost(postObject)
                 if(!post) {
                     res.status(500).send({
@@ -108,38 +114,50 @@ module.exports  = {
     },
 
     async editPost (req, res) {
-        // console.log('\neditController\n')
         const postObject = req.file ? {
             ...req.body,
             image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : { ...req.body }
-        delete postObject.userId
-        // console.log(postObject)
 
-        if(req.file) {
-            try {
-                const post = await Post.findOne({   //suppresses the given post             
-                    where: {
-                        id: req.params.id
-                    }
-                })
-                if(!post) {
-                    res.status(404).send({
-                        error: 'Couldn\'t find the post you want to edit...'
-                    })
-                } else {
-                    const filename = post.image.split('/images/')[1]
-                    const pathFile = path.join(__dirname, `../images/${filename}`)
-                    fs.unlink(pathFile, () => {
-                        console.log('Old image successfully unlinked')
-                    })
+        try {
+            const post = await Post.findOne({   //suppresses the given post             
+                where: {
+                    id: req.params.id
                 }
-            } catch {
-                res.status(500).send({
-                    error: 'An error occured trying to unlink the old image'
+            })
+            if(!post) {
+                res.status(404).send({
+                    error: 'Couldn\'t find the post you want to edit...'
                 })
+            } else {
+                if (postObject.userId != post.ownerId) {    //checks if the user passed in the request is the Post owner or has admin rights
+                    const user = await User.findOne({
+                        where: {
+                            id: postObject.userId
+                        }
+                    })
+                    if (!user) {
+                        deleteImage(req.file.filename)
+                        throw 'Couldn\'t find the user that wants to edit the post'
+                    } else if (user.role != 'admin'){
+                        deleteImage(req.file.filename)
+                        throw 'You don\'t have the rights to modify this post'
+                    }
+                }
+                if (req.file){                 //checks if there's a file in the request
+                    const filename = post.image.split('/images/')[1]
+                    deleteImage(filename)
+                }
             }
+        } catch (e) {
+             return res.status(400).send({
+                error: e
+            })
         }
+
+        delete postObject.userId
+        // console.log(postObject) ownerid = userid ou admin
+
         try {
             const newPost = await Post.update(postObject, {
                 where: {
@@ -158,7 +176,7 @@ module.exports  = {
             })
             res.status(200).send(updated)
         } catch {
-            res.status(500).send({
+            return res.status(500).send({
                 error: 'An error occured trying to update the Post'
             })
         }
@@ -190,7 +208,7 @@ module.exports  = {
                 })
             }
         } catch {
-            res.status(500).send({
+            return res.status(500).send({
                 error: 'An error occured trying to delete the post'
             })
         }
