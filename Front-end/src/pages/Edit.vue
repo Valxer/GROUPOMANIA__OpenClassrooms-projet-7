@@ -94,10 +94,9 @@ export default defineComponent({
     },
     fileHandler() {
       this.editedPost.image = this.imageUpload
-      console.log('file loaded', this.editedPost.image)
     },
     async editPost() {
-      this.editedPost.userId = this.post.post.ownerId
+      this.editedPost.userId = this.id
       let formData = new FormData()
       for ( var key in this.editedPost ) {
         if (this.editedPost[key]){
@@ -107,7 +106,6 @@ export default defineComponent({
       const postId = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
       try{
         const response = await Posts.editPost(postId, formData, this.token)
-        console.log(response)
         this.$router.push({
           name: 'feed'
         })
