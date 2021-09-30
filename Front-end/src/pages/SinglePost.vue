@@ -261,6 +261,17 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+  .post-card {
+    width: 100%;
+    .mainPic{
+      max-height: 600px;
+      object-fit: contain;
+    }
+  }
+  .createbtn {
+      height: 50px;
+      display: flex;
+  }
   .comment-date {
     font-size: 10px;
   }
