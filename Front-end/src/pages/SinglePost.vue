@@ -17,7 +17,15 @@
             <q-item-label caption>{{niceDate(post.post.date)}}</q-item-label>
           </q-item-section>
           <q-btn
-              v-if="id == post.post.ownerId"
+              v-if="id == post.post.ownerId || isAdmin"
+              class="del-btn"
+              @click="goToEdit(post.post.id)"
+              text-color="info"
+              flat
+              icon-right="eva-edit-outline"
+              />
+          <q-btn
+              v-if="id == post.post.ownerId || isAdmin"
               class="del-btn"
               @click="popUpPost()"
               text-color="info"
@@ -65,7 +73,7 @@
                 <q-item-label class="text-caption comment-date" caption>{{niceDate(comment.date)}}</q-item-label>
               </q-item-section>
               <q-btn
-              v-if="id == comment.userId"
+              v-if="id == comment.userId || isAdmin"
               class="del-btn"
               @click="selectComment(comment.id)"
               text-color="info"
@@ -174,6 +182,14 @@ export default defineComponent({
       return date.formatDate(value, 'Le D MMMM à HH:mm', {
         months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
       });
+    },
+    goToEdit(value) {
+      this.$router.push({
+        name: 'edit',
+        params: {
+          id: value
+        }
+      })
     },
     popUpPost(){
       this.popUp = true
