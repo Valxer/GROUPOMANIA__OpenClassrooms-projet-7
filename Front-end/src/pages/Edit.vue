@@ -97,7 +97,7 @@ export default defineComponent({
       console.log('file loaded', this.editedPost.image)
     },
     async editPost() {
-      this.editedPost.userId = this.id
+      this.editedPost.userId = this.post.post.ownerId
       let formData = new FormData()
       for ( var key in this.editedPost ) {
         if (this.editedPost[key]){
