@@ -12,10 +12,10 @@ const mutations = {
         state.token = token
         if (state.token) {
             state.isLoggedIn = true
-            console.log('logged in')
+            // console.log('logged in')
         } else {
             state.isLoggedIn = false
-            console.log('logged out')
+            // console.log('logged out')
         }
     },
     setName (state, name) {
@@ -29,11 +29,11 @@ const mutations = {
     },
     setPrivileges (state, role) {
         if (role === 'admin') {
-            console.log('Welcome admin')
+            // console.log('Welcome admin')
             state.isAdmin = true
         }
         else {
-            console.log('Hello random')
+            // console.log('Hello random')
             state.isAdmin = false
         }
     }
@@ -41,23 +41,23 @@ const mutations = {
 
 const actions = {
     setToken ({commit}, token) {
-        console.log('setting up token')
+        // console.log('setting up token')
         commit('setToken', token)
     },
     setName ({commit}, name) {
-        console.log('setting up name')
+        // console.log('setting up name')
         commit('setName', name)
     },
     setId ({commit}, id) {
-        console.log('settting up id')
+        // console.log('settting up id')
         commit('setId', id)
     },
     setProfilePic ({commit}, profilePic) {
-        console.log('setting up profile pic')
+        // console.log('setting up profile pic')
         commit('setProfilePic', profilePic)
     },
     setPrivileges({commit}, role) {
-        console.log('setting up privileges')
+        // console.log('setting up privileges')
         commit('setPrivileges', role)
     }
 }
