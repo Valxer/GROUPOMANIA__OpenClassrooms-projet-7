@@ -38,6 +38,12 @@ const routes = [
         name: 'singlePost',
         component: () => import('src/pages/SinglePost.vue'),
         meta: { requireAuth: true }
+      },
+      {
+        path: 'post/edit/:id',
+        name: 'edit',
+        component: () => import('src/pages/Edit.vue'),
+        meta: { requireAuth: true }
       }
     ]
   },
@@ -46,7 +52,8 @@ const routes = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/Error404.vue')
+    component: () => import('pages/Error404.vue'),
+    meta: { requireAuth: true }
   }
 ]
 
