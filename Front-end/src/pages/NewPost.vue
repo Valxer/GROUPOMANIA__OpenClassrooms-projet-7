@@ -23,6 +23,10 @@
           <q-icon name="eva-attach-outline" />
         </template>
       </q-file>
+      <div
+        class="error constrain"
+        v-html="error" 
+      />
       <q-btn
         class="q-mt-xl q-mx-auto"
         unelevated
@@ -52,7 +56,8 @@ export default defineComponent({
         date: Date.now(),
         image: ''
       },
-      imageUpload: []
+      imageUpload: [],
+      error: null
     }
   },
   computed:{
@@ -91,5 +96,9 @@ export default defineComponent({
       width: 80%;
       max-width: 950px;
     }
+  }
+  .error {
+    color: red;
+    max-width: 300px;
   }
 </style>
