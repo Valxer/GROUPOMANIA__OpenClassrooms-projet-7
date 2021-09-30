@@ -14,7 +14,8 @@ module.exports = {
         const schema = Joi.object({     // sets the verification criteria for the creation of a new post
             userId: Joi.number().required(),
             title: Joi.string().min(2).max(140).required(),
-            date: Joi.date().timestamp()
+            date: Joi.date().timestamp(),
+            image: Joi.string()
         })
 
         const {error} = schema.validate(req.body)   //returns an error if the validation fails
@@ -36,6 +37,14 @@ module.exports = {
                     deleteImage(req.file.filename)    
                     res.status(400).send({
                         error: 'An error occurred trying to get the date of your post'
+                    })
+                    break
+                case 'image':                        //if the profilePic is at fault
+                    if (req.file) {
+                        deleteImage(req.file.filename) 
+                    }
+                    res.status(400).send({
+                        error: `Choisissez une image au format .jpg .png ou .gif`
                     })
                     break
                 default:                        //if somehow there was a problem

@@ -19,7 +19,8 @@ module.exports = {
             password: Joi.string().regex(
                 new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,32}$')
             ).required(),
-            role: Joi.string().alphanum().valid('admin', 'user').default('user')
+            role: Joi.string().alphanum().valid('admin', 'user').default('user'),
+            image: Joi.string().default('https://i.imgur.com/tdi3NGa.png')
         })
 
         console.log('\n\nbody :', req.body)
@@ -32,9 +33,7 @@ module.exports = {
                     }
                     res.status(400).send({
                         error: `The name provided failed to match the following rules:
-                        <br>
                         1. It must contain ONLY the following characters: lower case, upper case, numerics
-                        <br>
                         2. It must have between 2 and 20 characters
                         `
                     })
@@ -53,18 +52,14 @@ module.exports = {
                     } 
                     res.status(400).send({
                         error: `The password provided failed to match the following rules:
-                        <br>
                         1. It must contain at least one lower case character
-                        <br>
                         2. It must contain at least one upper case character
-                        <br>
                         3. It must contain at least one digit
-                        <br>
                         4. It must have between 8 and 32 characters
                         `
                     })
                     break
-                case 'role':                        //if the profilePic is at 
+                case 'role':                        //if the role is at fault 
                     if (req.file) {
                         deleteImage(req.file.filename) 
                     }
@@ -72,8 +67,18 @@ module.exports = {
                         error: `role non attribué`
                     })
                     break
+                case 'image':                        //if the profilePic is at fault
+                    if (req.file) {
+                        deleteImage(req.file.filename) 
+                    }
+                    res.status(400).send({
+                        error: `Choisissez une photo de profil au format .jpg .png ou .gif`
+                    })
+                    break
                 default:                        //if somehow there was a problem
-                    deleteImage(req.file.filename) 
+                    if (req.file) {
+                        deleteImage(req.file.filename) 
+                    }
                     res.status(400).send({
                         error: 'Invalid registration information'
                     })
