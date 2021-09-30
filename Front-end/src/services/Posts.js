@@ -11,9 +11,10 @@ export default {
         const path = 'post/' + id
         return api.get(path)
     },
-    editPost(id, token) {
+    editPost(id, content, token) {
         const path = 'post/edit/' + id
-        return api.put(path, {headers: {'Authorization': `Bearer ${token}`}})
+        // console.log('path :', path, '\ncontent :', content, '\ntoken :', token)
+        return api.put(path, content, {headers: {'Authorization': `Bearer ${token}`}})
     },
     deletePost(id, token) {
         const path = 'post/' + id

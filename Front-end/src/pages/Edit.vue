@@ -1,11 +1,37 @@
 <template>
   <q-page class="flex flex-center constrain">
+    <div class="feedsection row justify-center q-gutter-xl q-mb-xl">
+      <q-card
+      v-if="isFetched"
+        class="post-card"
+        :key="post.post.id"
+      >
+        <q-item>
+          <q-item-section avatar>
+            <q-avatar>
+              <img class="profilePic" :src="post.post.profilePic">
+            </q-avatar>
+          </q-item-section>
+          <q-item-section class="card-header">
+            <q-item-label>{{post.post.name}}</q-item-label>
+            <q-item-label caption>{{niceDate(post.post.date)}}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <img class="mainPic" :src="post.post.image">
+        <q-card-section class="card-footer q-mb-sm">
+          <div class="text-subtitle1 text-weight-medium text-center">{{post.post.title}}</div>
+        </q-card-section>
+      </q-card>
+    </div>
+
+
+
     <div class="constrain form-container column">
       <q-input
         class="col q-mb-md textInput"
         autogrow
-        v-model="post.title"
-        label="Légende"
+        v-model="editedPost.title"
+        label="Titre"
         label-color="primary"
         color="primary" />
       <q-file
@@ -29,9 +55,9 @@
         rounded
         color="primary"
         text-color="secondary"
-        label="Partager le post"
+        label="Modifier le post"
         style="width: 300px"
-        @click="submitPost"
+        @click="editPost"
         />
     </div>
   </q-page>
@@ -41,17 +67,19 @@
 import { defineComponent } from 'vue'
 import Posts from '../services/Posts'
 import { mapState } from 'vuex'
+import { date } from 'quasar'
 
 export default defineComponent({
-  name: 'NewPost',
+  name: 'Edit',
   data() {
     return {
-      post:{
+      post: null,
+      editedPost:{
         userId: null,
         title: '',
-        date: Date.now(),
         image: ''
       },
+      isFetched: false,
       imageUpload: []
     }
   },
@@ -59,19 +87,26 @@ export default defineComponent({
     ...mapState('client', ['id', 'token'])
   },
   methods: {
-    fileHandler() {
-      this.post.image = this.imageUpload
-      console.log('imageUpload :', this.imageUpload, 'image', this.post.image)
+    niceDate: function(value) {
+      return date.formatDate(value, 'Le D MMMM à HH:mm', {
+        months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
+      });
     },
-    async submitPost() {
-      this.post.userId = this.id
+    fileHandler() {
+      this.editedPost.image = this.imageUpload
+      console.log('file loaded', this.editedPost.image)
+    },
+    async editPost() {
+      this.editedPost.userId = this.id
       let formData = new FormData()
-      for ( var key in this.post ) {
-        formData.append(key, this.post[key]);
+      for ( var key in this.editedPost ) {
+        if (this.editedPost[key]){
+            formData.append(key, this.editedPost[key])
+        }
       }
+      const postId = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
       try{
-        console.log('token', this.token)
-        const response = await Posts.createPost(formData, this.token)
+        const response = await Posts.editPost(postId, formData, this.token)
         console.log(response)
         this.$router.push({
           name: 'feed'
@@ -81,12 +116,26 @@ export default defineComponent({
         this.error = error.response.data.error
       }
     }
-  }
+  },
+    async mounted () {
+        this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
+        this.isFetched = true
+    }
 })
 </script>
 
 <style lang="scss" scoped>
+    .post-card {
+        max-height: 480px;
+        max-width: 85%;
+        margin-top: 75px;
+    }
+    .mainPic {
+        max-height: 75%;
+        object-fit: cover;
+    }
   .form-container {
+    margin-bottom: 30px;
     @media (min-width: $breakpoint-sm-min){
       width: 80%;
       max-width: 950px;
