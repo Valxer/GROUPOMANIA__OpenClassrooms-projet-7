@@ -115,11 +115,6 @@ export default defineComponent({
       for ( var key in this.user ) {
         formData.append(key, this.user[key]);
       }
-      // var object = {};
-      // formData.forEach(function(value, key){
-      // object[key] = value;
-      // })
-      // console.log("object :" , object)
       try {
         await Auth.signin(formData)
         console.log('User registered !')
