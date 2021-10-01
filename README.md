@@ -10,12 +10,12 @@ Donc soit un réseau de partage d'images et gif soit un réseau de threads textu
 Un fichier contenant le lien vers le repository Github
 ## Choix
 Les choix que j'ai effectués sont les suivants :
-    + Création d'un réseau type 9gag avec un feed donnant les dernières publications multimédias de la communauté
-    + Utilisation du VueJS pour développer le front et plus particulièrement du framework Quasar
-    + Le back est implémenté avec le framework Express
-    + La base de données choisie est SQLite
-    + Utilisation de l'ORM Sequelize
-    + Implémentation d'une RESTful API
++ Création d'un réseau type 9gag avec un feed donnant les dernières publications multimédias de la communauté
++ Utilisation du VueJS pour développer le front et plus particulièrement du framework Quasar
++ Le back est implémenté avec le framework Express
++ La base de données choisie est SQLite
++ Utilisation de l'ORM Sequelize
++ Implémentation d'une RESTful API
 ## Installation
 1. Cloner le repository avec ``git clone https://github.com/Valxer/KevinLeVanPhung_7_06092021.git``
 2. Ouvrez le dossier avec VSCode
