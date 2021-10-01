@@ -17,7 +17,7 @@ Les choix que j'ai effectués sont les suivants :
     + Utilisation de l'ORM Sequelize
     + Implémentation d'une RESTful API
 ## Installation
-1. Cloner le repository sur votre ordinateur avec ``git clone https://github.com/Valxer/KevinLeVanPhung_7_06092021.git``
+1. Cloner le repository avec ``git clone https://github.com/Valxer/KevinLeVanPhung_7_06092021.git``
 2. Ouvrez le dossier avec VSCode
 3. Dans VSCode ouvrez un terminal :  
 	* Tapez ``cd Back-end/ && npm install`` pour installer les dépendances du Back-end du site
