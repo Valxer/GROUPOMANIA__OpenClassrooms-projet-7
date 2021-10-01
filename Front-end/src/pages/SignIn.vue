@@ -99,7 +99,6 @@ export default defineComponent({
   methods: {
     fileHandler() {
       this.user.image = this.imageUpload
-      console.log('imageUpload :', this.imageUpload, 'image', this.user.image)
     },
     resetpseudo() {
       this.$refs.pseudo.resetValidation()
@@ -116,12 +115,11 @@ export default defineComponent({
       for ( var key in this.user ) {
         formData.append(key, this.user[key]);
       }
-      console.log('formData :', formData)
-      var object = {};
-      formData.forEach(function(value, key){
-      object[key] = value;
-      })
-      console.log("object :" , object)
+      // var object = {};
+      // formData.forEach(function(value, key){
+      // object[key] = value;
+      // })
+      // console.log("object :" , object)
       try {
         await Auth.signin(formData)
         console.log('User registered !')
@@ -129,7 +127,6 @@ export default defineComponent({
           name: 'login'
         })
       } catch (error) {
-        console.log('error :', error)
         this.error = error.response.data.error
       }
     }

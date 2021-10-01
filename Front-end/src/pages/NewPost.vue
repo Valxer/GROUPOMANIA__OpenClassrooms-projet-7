@@ -66,7 +66,6 @@ export default defineComponent({
   methods: {
     fileHandler() {
       this.post.image = this.imageUpload
-      console.log('imageUpload :', this.imageUpload, 'image', this.post.image)
     },
     async submitPost() {
       this.post.userId = this.id
@@ -75,14 +74,11 @@ export default defineComponent({
         formData.append(key, this.post[key]);
       }
       try{
-        console.log('token', this.token)
         const response = await Posts.createPost(formData, this.token)
-        console.log(response)
         this.$router.push({
           name: 'feed'
         })
       } catch (error) {
-        console.log('error :', error)
         this.error = error.response.data.error
       }
     }

@@ -68,12 +68,10 @@ export default defineComponent({
         this.setProfilePic(null)
         this.setPrivileges(null)
         this.setToken(null)
-        console.log('Deconnecting...')
         this.$router.push({
           name: 'login'
         })
       } catch (error) {
-        console.log('error :',error)
         this.error = error.response.data.error
       }
     }

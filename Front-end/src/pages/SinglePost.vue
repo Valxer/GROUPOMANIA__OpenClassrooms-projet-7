@@ -206,12 +206,10 @@ export default defineComponent({
     async deletePost() {
       try {
         const response = await Posts.deletePost(this.post.post.id, this.token)
-        console.log(response.data.message)
         this.$router.push({
           name: 'feed'
         })
       } catch (error) {
-        console.log('error :', error)
         this.error = error.response.data.error
       }
     },
@@ -220,13 +218,11 @@ export default defineComponent({
         const response = await Comments.deleteComment({
           id: this.selectedCommentId
         }, this.token)
-        console.log(response.data.message)
         this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
         if (!this.post.comments.length) {
           this.hasComments = false
         }
       } catch (error) {
-        console.log('error :', error)
         this.error = error.response.data.error
       }
     },
@@ -237,14 +233,12 @@ export default defineComponent({
           postId: this.post.post.id,
           comment: this.answer
         }, this.token)
-        console.log(response.data.message)
         this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
         if (this.post.comments.length) {
           this.hasComments = true
         }
         this.answer.content =''
       } catch (error) {
-        console.log('error :', error)
         this.error = error.response.data.error
       }
     }
