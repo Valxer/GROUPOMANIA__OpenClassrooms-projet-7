@@ -27,4 +27,4 @@ Vous êtes désormais connecté au back-end
 4. Ouvrez un nouveau terminal sans fermer l'ancien :
     * Tapez ``cd Front-end/ && npm install`` pour installer les dépendances du Front-end du site
     * Tapez ensuite ``npm start`` pour lancer le front
-    * Cliquez sur le lien dans le terminal pour accéder au site ou tapez ``http://localhost:8080/`` dans votre navigateur
+    * Si le site web ne s'ouvre pas de lui-même, cliquez sur le lien dans le terminal pour accéder au site ou tapez ``http://localhost:8080/`` dans votre navigateur
