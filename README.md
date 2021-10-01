@@ -28,3 +28,8 @@ Vous êtes désormais connecté au back-end
     * Tapez ``cd Front-end/ && npm install`` pour installer les dépendances du Front-end du site
     * Tapez ensuite ``npm start`` pour lancer le front
     * Si le site web ne s'ouvre pas de lui-même, cliquez sur le lien dans le terminal pour accéder au site ou tapez ``http://localhost:8080/`` dans votre navigateur
+## BDD
+La base de données est vierge à l'exception d'un utilisateur avec les pouvoirs d'administrateur qui ne peut être créer vie le formulaire du site.
+Pour accéder à ce compte il vous faut vous connecter avec les informations suivantes :
++ Mail : admin@admin.com
++ Mot de Passe : aA!123456
