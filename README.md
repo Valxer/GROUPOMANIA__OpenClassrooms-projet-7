@@ -33,3 +33,5 @@ La base de données est vierge à l'exception d'un utilisateur avec les pouvoirs
 Pour accéder à ce compte il vous faut vous connecter avec les informations suivantes :
 + Mail : admin@admin.com
 + Mot de Passe : aA!123456
+
+Il n'y a aucun autre utilisateur, post ou commentaire créé !
