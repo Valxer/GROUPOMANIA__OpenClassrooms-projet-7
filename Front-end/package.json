@@ -6,7 +6,6 @@
   "author": "Kevin Le Van Phung <levanphungk@gmail.com>",
   "private": true,
   "scripts": {
-    "build": "mkdir images",
     "start": "quasar dev"
   },
   "dependencies": {
