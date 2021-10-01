@@ -21,10 +21,18 @@ module.exports  = {
         try {
             req.body.email = cryptojs.AES.encrypt(req.body.email, key, { iv: iv }).toString()
             req.body.password = await bcrypt.hash(req.body.password, 10)   //hashes the password
-            var userObject = {
-                ...req.body,
-                name: req.body.userName,
-                profilePic: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            if (req.file) {
+                var userObject = {
+                    ...req.body,
+                    name: req.body.userName,
+                    profilePic: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                }
+            } else {
+                var userObject = {
+                    ...req.body,
+                    name: req.body.userName,
+                    profilePic: 'https://i.imgur.com/tdi3NGa.png'
+                }
             }
             delete userObject.userName
             const user = await User.create(userObject)    //creates a new user
