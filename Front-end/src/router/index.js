@@ -28,7 +28,6 @@ export default route(function (/* { store, ssrContext } */) {
   Router.beforeEach((to, from, next) =>{
     if (to.meta.requireAuth){
       const isAuth = JSON.parse(localStorage.getItem('vuex')).client.isLoggedIn
-      console.log('session :', isAuth)
       if (!isAuth) {
         next({
           name: 'login'

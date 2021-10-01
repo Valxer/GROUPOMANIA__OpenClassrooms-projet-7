@@ -86,7 +86,6 @@ export default defineComponent({
         this.setProfilePic(response.data.user.profilePic)
         this.setToken(response.data.token)
         this.setPrivileges(response.data.user.role)
-        console.log('Connexion complete')
         this.$router.push({
           name: 'feed'
         })
