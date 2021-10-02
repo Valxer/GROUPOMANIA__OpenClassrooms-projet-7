@@ -37,12 +37,4 @@ Pour accéder à ce compte il vous faut vous connecter avec les informations sui
 Il n'y a aucun autre utilisateur, post ou commentaire créé !
 
 ## .ENV
-Créez un fichier .env et ajouter les infos suivantes (remplacez vos infos comme vous voulez)
-DB_NAME = "groupomania"
-DB_USER = "groupomania"
-DB_PASS = "groupomania"
-DIALECT = "sqlite"
-HOST = "localhost"
-JWT_SECRET = "secret"
-KEY = "000102030405060708090a0b0c0d0e0f"
-IV = "101112131415161718191a1b1c1d1e1f"
+Remplacez les données du .env par vos propres données
