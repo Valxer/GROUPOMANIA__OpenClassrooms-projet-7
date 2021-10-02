@@ -17,11 +17,11 @@ module.exports = (app) => {
     //Post requests
     app.get('/feed', PostsController.getFeed)
     app.post('/post', multer, Postpolicy.createPost, tokenChecker, PostsController.createPost)
-    app.get('/post/:id', PostsController.getPost)
+    app.get('/post/:id', tokenChecker, PostsController.getPost)
     app.put('/post/edit/:id', multer, Postpolicy.editPost, tokenChecker, PostsController.editPost)
     app.delete('/post/:id', tokenChecker, PostsController.deletePost)
     //Comment requests
-    app.get('/post/:id/comments', CommentsController.getComments)
+    app.get('/post/:id/comments',tokenChecker, CommentsController.getComments)
     app.post('/post/:id', tokenChecker, Commentpolicy.createComment, CommentsController.createComment)
     app.delete('/comment/:id', tokenChecker, CommentsController.deleteComment)
 }

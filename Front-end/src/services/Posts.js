@@ -7,9 +7,9 @@ export default {
     createPost(content, token) {
         return api.post('post', content, {headers: {'Authorization': `Bearer ${token}`}})
     },
-    getPost(id) {
+    getPost(id, token) {
         const path = 'post/' + id
-        return api.get(path)
+        return api.get(path, {headers: {'Authorization': `Bearer ${token}`}})
     },
     editPost(id, content, token) {
         const path = 'post/edit/' + id

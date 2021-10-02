@@ -218,7 +218,7 @@ export default defineComponent({
         const response = await Comments.deleteComment({
           id: this.selectedCommentId
         }, this.token)
-        this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
+        this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1), this.token)).data
         if (!this.post.comments.length) {
           this.hasComments = false
         }
@@ -244,7 +244,7 @@ export default defineComponent({
     }
   },
   async mounted () {
-    this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
+    this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1), )).data
     this.isFetched = true
     if (this.post.comments.length) {
       this.hasComments = true
