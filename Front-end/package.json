@@ -6,7 +6,8 @@
   "author": "Kevin Le Van Phung <levanphungk@gmail.com>",
   "private": true,
   "scripts": {
-    "start": "quasar dev"
+    "start": "quasar dev",
+    "build": "quasar build"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",

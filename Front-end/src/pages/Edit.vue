@@ -105,7 +105,7 @@ export default defineComponent({
       }
       const postId = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
       try{
-        const response = await Posts.editPost(postId, formData, this.token)
+        await Posts.editPost(postId, formData, this.token)
         this.$router.push({
           name: 'feed'
         })
@@ -116,7 +116,7 @@ export default defineComponent({
     }
   },
     async mounted () {
-        this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
+        this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1), this.token)).data
         this.isFetched = true
     }
 })

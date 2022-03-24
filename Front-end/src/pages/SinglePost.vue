@@ -233,7 +233,7 @@ export default defineComponent({
           postId: this.post.post.id,
           comment: this.answer
         }, this.token)
-        this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))).data
+        this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1), this.token)).data
         if (this.post.comments.length) {
           this.hasComments = true
         }
@@ -244,7 +244,7 @@ export default defineComponent({
     }
   },
   async mounted () {
-    this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1), )).data
+    this.post = (await Posts.getPost(window.location.href.substring(window.location.href.lastIndexOf('/') + 1), this.token)).data
     this.isFetched = true
     if (this.post.comments.length) {
       this.hasComments = true
